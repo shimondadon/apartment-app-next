@@ -1,25 +1,26 @@
 // Storage layer using in-memory storage (Vercel-compatible)
-// NOTE: Data will be lost on serverless function cold starts
+// NOTE: Data persists during serverless function warm state
 // For production, consider using Vercel KV, Postgres, or MongoDB
 
+// Global shared storage that persists across API calls while function is warm
+const globalStorage = new Map<string, any[]>();
+
 export class JsonStorage {
-  private data: Map<string, any[]>;
   private filename: string;
 
   constructor(filename: string) {
     this.filename = filename;
-    this.data = new Map();
   }
 
   read<T>(): T[] {
-    if (!this.data.has(this.filename)) {
-      this.data.set(this.filename, []);
+    if (!globalStorage.has(this.filename)) {
+      globalStorage.set(this.filename, []);
     }
-    return this.data.get(this.filename) || [];
+    return globalStorage.get(this.filename) || [];
   }
 
   write<T>(data: T[]): void {
-    this.data.set(this.filename, data);
+    globalStorage.set(this.filename, data);
   }
 
   add<T extends { id: string | number }>(item: T): T {
