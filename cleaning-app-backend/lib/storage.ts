@@ -1,46 +1,25 @@
-// Storage layer for JSON file persistence
-
-import fs from 'fs';
-import path from 'path';
-
-const DATA_DIR = path.join(process.cwd(), 'data');
-
-// Ensure data directory exists
-if (!fs.existsSync(DATA_DIR)) {
-  fs.mkdirSync(DATA_DIR, { recursive: true });
-}
+// Storage layer using in-memory storage (Vercel-compatible)
+// NOTE: Data will be lost on serverless function cold starts
+// For production, consider using Vercel KV, Postgres, or MongoDB
 
 export class JsonStorage {
-  private filePath: string;
+  private data: Map<string, any[]>;
+  private filename: string;
 
   constructor(filename: string) {
-    this.filePath = path.join(DATA_DIR, filename);
-    this.ensureFile();
-  }
-
-  private ensureFile() {
-    if (!fs.existsSync(this.filePath)) {
-      fs.writeFileSync(this.filePath, JSON.stringify([], null, 2));
-    }
+    this.filename = filename;
+    this.data = new Map();
   }
 
   read<T>(): T[] {
-    try {
-      const data = fs.readFileSync(this.filePath, 'utf-8');
-      return JSON.parse(data);
-    } catch (error) {
-      console.error(`Error reading ${this.filePath}:`, error);
-      return [];
+    if (!this.data.has(this.filename)) {
+      this.data.set(this.filename, []);
     }
+    return this.data.get(this.filename) || [];
   }
 
   write<T>(data: T[]): void {
-    try {
-      fs.writeFileSync(this.filePath, JSON.stringify(data, null, 2));
-    } catch (error) {
-      console.error(`Error writing ${this.filePath}:`, error);
-      throw error;
-    }
+    this.data.set(this.filename, data);
   }
 
   add<T extends { id: string | number }>(item: T): T {
