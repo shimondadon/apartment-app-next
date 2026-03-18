@@ -37,6 +37,8 @@ export async function POST(request: NextRequest) {
     // Find or create worker
     let worker = workersStorage.findOne<Worker>((w) => w.name === name && w.code === code);
     
+    const isNewWorker = !worker;
+    
     if (!worker) {
       // Create new worker
       worker = {
@@ -46,6 +48,37 @@ export async function POST(request: NextRequest) {
         createdAt: new Date()
       };
       workersStorage.add(worker);
+      
+      // Add 3 demo completed sessions for new workers
+      const { workSessionsStorage } = require('@/lib/storage');
+      const demoSessions = [
+        {
+          id: `session_${Date.now()}_1`,
+          workerId: worker.id,
+          apartmentId: 'apt_001',
+          startTime: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000),
+          endTime: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000 + 2 * 60 * 60 * 1000),
+          status: 'completed',
+        },
+        {
+          id: `session_${Date.now()}_2`,
+          workerId: worker.id,
+          apartmentId: 'apt_002',
+          startTime: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000),
+          endTime: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000 + 1.5 * 60 * 60 * 1000),
+          status: 'completed',
+        },
+        {
+          id: `session_${Date.now()}_3`,
+          workerId: worker.id,
+          apartmentId: 'apt_003',
+          startTime: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
+          endTime: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000 + 2.5 * 60 * 60 * 1000),
+          status: 'completed',
+        },
+      ];
+      
+      demoSessions.forEach(session => workSessionsStorage.add(session));
     }
 
     // Generate JWT token
