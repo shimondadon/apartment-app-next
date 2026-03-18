@@ -59,7 +59,7 @@ export class ApiService {
   }
 
   completeTask(request: CompleteTaskRequest): Observable<ApiResponse<void>> {
-    return this.http.post<ApiResponse<void>>(`${this.baseUrl}/tasks/complete`, request);
+    return this.http.post<ApiResponse<void>>(`${this.baseUrl}/tasks`, request);
   }
 
   // Issue endpoints
