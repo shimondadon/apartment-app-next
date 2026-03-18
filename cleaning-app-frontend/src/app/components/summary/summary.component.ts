@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter, Subscription } from 'rxjs';
 import { ApiService } from '../../services/api.service';
 import { WorkService } from '../../services/work.service';
 import { AuthService } from '../../services/auth.service';
@@ -12,20 +14,35 @@ import { WorkSummary, WorkSession } from '../../models/types';
   templateUrl: './summary.component.html',
   styleUrls: ['./summary.component.css']
 })
-export class SummaryComponent implements OnInit {
+export class SummaryComponent implements OnInit, OnDestroy {
   summary: WorkSummary | null = null;
   isLoading = false;
   recentSessions: WorkSession[] = [];
   selectedSessionId: string | null = null;
+  private routerSubscription?: Subscription;
 
   constructor(
     private apiService: ApiService,
     private workService: WorkService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.loadRecentSessions();
+    
+    // Reload data when navigating to this page
+    this.routerSubscription = this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      if (this.router.url === '/summary') {
+        this.loadRecentSessions();
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.routerSubscription?.unsubscribe();
   }
 
   loadRecentSessions(): void {
