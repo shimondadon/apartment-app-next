@@ -1,0 +1,65 @@
+<div>
+  <div class="progress-text">
+    {{ getCompletedTasks() }} / {{ getTotalTasks() }} משימות הושלמו
+  </div>
+  <div class="progress-bar-container">
+    <div class="progress-bar-fill" [style.width.%]="getProgress()"></div>
+  </div>
+
+  <div *ngFor="let category of taskCategories">
+    <div class="category-header">{{ category.name }}</div>
+
+    <div 
+      *ngFor="let task of category.tasks"
+      class="task-item"
+      [class.completed]="task.completed"
+      [class.has-inventory]="task.hasInventory"
+    >
+      <div class="task-header">
+        <input 
+          type="checkbox" 
+          [checked]="task.completed"
+          (change)="toggleTask(task)"
+        >
+        <label>{{ task.text }}</label>
+        <div 
+          *ngIf="task.hasInventory"
+          class="task-expand-btn"
+          (click)="expandTask(task.id)"
+        >
+          📦
+        </div>
+      </div>
+
+      <div class="task-details" [class.active]="isTaskExpanded(task.id)">
+        <div class="inventory-options">
+          <div class="inventory-option">
+            <input type="radio" [name]="'inv-' + task.id" value="used">
+            <label>✓ השתמשתי במוצר</label>
+          </div>
+          <div class="inventory-option">
+            <input type="radio" [name]="'inv-' + task.id" value="not-used">
+            <label>✗ לא השתמשתי</label>
+          </div>
+          <div class="inventory-option">
+            <input type="radio" [name]="'inv-' + task.id" value="out-of-stock">
+            <label>⚠ אזל המלאי</label>
+          </div>
+        </div>
+
+        <div class="quantity-input">
+          <input type="number" placeholder="כמות" min="0" step="0.1">
+          <select>
+            <option value="ml">מ"ל</option>
+            <option value="units">יחידות</option>
+            <option value="g">גרם</option>
+          </select>
+        </div>
+
+        <button class="btn-small btn-success" (click)="saveInventory(task)">
+          שמור ✓
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

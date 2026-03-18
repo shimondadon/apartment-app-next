@@ -1,0 +1,42 @@
+<div class="container">
+  <div class="header">
+    <div class="lang-toggle" (click)="toggleLanguage()">
+      <span>{{ translationService.getCurrentLanguage().code === 'he' ? 'EN' : 'HE' }}</span>
+    </div>
+    <h1>{{ translationService.translate('appTitle') }}</h1>
+    <p *ngIf="currentWorker">{{ currentWorker.name }}</p>
+  </div>
+
+  <div class="content">
+    <div class="tabs">
+      <div class="tab" [class.active]="activeTab === 'work'" (click)="switchTab('work')">
+        {{ translationService.translate('work') }}
+      </div>
+      <div class="tab" [class.active]="activeTab === 'inventory'" (click)="switchTab('inventory')">
+        {{ translationService.translate('inventory') }}
+      </div>
+      <div class="tab" [class.active]="activeTab === 'issues'" (click)="switchTab('issues')">
+        {{ translationService.translate('issues') }}
+      </div>
+      <div class="tab" [class.active]="activeTab === 'summary'" (click)="switchTab('summary')">
+        {{ translationService.translate('summary') }}
+      </div>
+    </div>
+
+    <div class="tab-content" [class.active]="activeTab === 'work'">
+      <app-work-tracking></app-work-tracking>
+    </div>
+
+    <div class="tab-content" [class.active]="activeTab === 'inventory'">
+      <app-inventory></app-inventory>
+    </div>
+
+    <div class="tab-content" [class.active]="activeTab === 'issues'">
+      <app-issues></app-issues>
+    </div>
+
+    <div class="tab-content" [class.active]="activeTab === 'summary'">
+      <app-summary></app-summary>
+    </div>
+  </div>
+</div>

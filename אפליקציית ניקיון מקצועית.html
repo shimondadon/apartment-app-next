@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<!-- saved from url=(0191)file:///C:/Users/sdadon/AppData/Local/Packages/5319275A.WhatsAppDesktop_cv1g1gvanyjgm/LocalState/sessions/4E723B886F343757601499A1C805D0AA1DD4A92F/transfers/2026-12/cleaning-app-complete.html -->
+<html lang="he" dir="rtl"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>אפליקציית ניקיון מקצועית</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --primary: #667eea;
+            --primary-dark: #5568d3;
+            --secondary: #764ba2;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-600: #6b7280;
+            --gray-700: #374151;
+            --gray-900: #1f2937;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Heebo', Arial, sans-serif;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            min-height: 100vh;
+            padding: 10px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .lang-toggle {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(255,255,255,0.2);
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.3);
+            font-weight: 600;
+        }
+
+        .header h1 {
+            font-size: 22px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .header p {
+            opacity: 0.95;
+            font-size: 14px;
+        }
+
+        .content {
+            padding: 20px;
+            max-height: 75vh;
+            overflow-y: auto;
+        }
+
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--gray-900);
+            font-size: 15px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .btn-secondary {
+            background: var(--gray-200);
+            color: var(--gray-700);
+            box-shadow: none;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+        }
+
+        .btn-small {
+            padding: 10px 16px;
+            font-size: 14px;
+            width: auto;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .apartment-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .apartment-card {
+            padding: 25px 15px;
+            border: 3px solid var(--gray-200);
+            border-radius: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .apartment-card:active {
+            transform: scale(0.95);
+        }
+
+        .apartment-card.selected {
+            border-color: var(--primary);
+            background: #eef2ff;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .apartment-card .icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .apartment-card .name {
+            font-weight: 600;
+            font-size: 18px;
+            color: var(--gray-700);
+            margin-bottom: 5px;
+        }
+
+        .apartment-card .subtitle {
+            font-size: 12px;
+            color: var(--gray-600);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            margin: 0 3px;
+        }
+
+        .badge-new {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-special {
+            background: #ddd6fe;
+            color: #5b21b6;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .status-idle {
+            background: var(--gray-100);
+            color: var(--gray-600);
+        }
+
+        .status-working {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .status-completed {
+            background: #d1fae5;
+            color: #059669;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid var(--gray-200);
+            margin-bottom: 20px;
+            gap: 5px;
+            overflow-x: auto;
+        }
+
+        .tab {
+            flex: 1;
+            min-width: 80px;
+            padding: 14px 8px;
+            text-align: center;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+            font-weight: 500;
+            color: var(--gray-600);
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .tab.active {
+            border-bottom-color: var(--primary);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 25px 0 15px;
+            color: var(--gray-900);
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--gray-200);
+        }
+
+        .category-header {
+            background: var(--gray-100);
+            padding: 12px 15px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--gray-900);
+            margin: 20px 0 12px;
+            border-right: 4px solid var(--primary);
+        }
+
+        .task-item {
+            background: var(--gray-50);
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
+            transition: all 0.2s;
+        }
+
+        .task-item.completed {
+            background: #d1fae5;
+            border-color: var(--success);
+        }
+
+        .task-item.has-inventory {
+            border-right-width: 6px;
+            border-right-color: var(--warning);
+        }
+
+        .task-header {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .task-header input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            margin-left: 12px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .task-header label {
+            margin: 0;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--gray-700);
+            flex: 1;
+        }
+
+        .task-item.completed .task-header label {
+            text-decoration: line-through;
+            opacity: 0.7;
+        }
+
+        .task-expand-btn {
+            padding: 4px 8px;
+            background: var(--gray-200);
+            border-radius: 6px;
+            font-size: 12px;
+            color: var(--gray-700);
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .task-details {
+            display: none;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--gray-300);
+        }
+
+        .task-details.active {
+            display: block;
+        }
+
+        .inventory-options {
+            display: grid;
+            gap: 8px;
+        }
+
+        .inventory-option {
+            padding: 12px;
+            background: white;
+            border: 2px solid var(--gray-200);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+        }
+
+        .inventory-option:active {
+            transform: scale(0.98);
+        }
+
+        .inventory-option.selected {
+            border-color: var(--primary);
+            background: #eef2ff;
+        }
+
+        .inventory-option input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        .inventory-option label {
+            margin: 0;
+            font-size: 13px;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .quantity-input {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .quantity-input input {
+            flex: 1;
+            padding: 10px;
+            font-size: 15px;
+        }
+
+        .quantity-input select {
+            flex: 1;
+            padding: 10px;
+            font-size: 15px;
+        }
+
+        .expense-inputs {
+            display: grid;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .expense-inputs input {
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        .photo-upload-area {
+            margin-top: 10px;
+            padding: 12px;
+            border: 2px dashed var(--gray-300);
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            background: var(--gray-50);
+            transition: all 0.2s;
+        }
+
+        .photo-upload-area:hover {
+            border-color: var(--primary);
+            background: #eef2ff;
+        }
+
+        .photo-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .photo-preview-grid img {
+            width: 100%;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid var(--gray-200);
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 10px;
+            background: var(--gray-200);
+            border-radius: 10px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--success), #059669);
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+
+        .progress-text {
+            text-align: center;
+            font-size: 14px;
+            color: var(--gray-600);
+            margin-bottom: 15px;
+        }
+
+        .summary-card {
+            background: var(--gray-50);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 15px;
+            border: 2px solid var(--gray-200);
+        }
+
+        .summary-card p {
+            margin-bottom: 12px;
+            color: var(--gray-700);
+            font-size: 15px;
+        }
+
+        .summary-card strong {
+            color: var(--gray-900);
+            font-weight: 600;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .alert-info {
+            background: #dbeafe;
+            color: #1e40af;
+            border: 2px solid #93c5fd;
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 2px solid #6ee7b7;
+        }
+
+        .alert-warning {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 2px solid #fca5a5;
+        }
+
+        .inventory-log {
+            margin-top: 15px;
+        }
+
+        .inventory-log-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid var(--gray-200);
+            margin-bottom: 10px;
+        }
+
+        .inventory-log-item strong {
+            display: block;
+            color: var(--gray-900);
+            margin-bottom: 5px;
+        }
+
+        .inventory-log-item span {
+            display: block;
+            color: var(--gray-600);
+            font-size: 13px;
+        }
+
+        .expense-summary {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid var(--gray-200);
+            margin-top: 15px;
+        }
+
+        .expense-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--gray-200);
+            font-size: 14px;
+        }
+
+        .expense-item:last-child {
+            border-bottom: none;
+            font-weight: 600;
+            border-top: 2px solid var(--gray-300);
+            margin-top: 10px;
+            padding-top: 15px;
+            font-size: 16px;
+        }
+
+        .inventory-warnings {
+            margin-top: 15px;
+        }
+
+        .inventory-warning-item {
+            background: #fee2e2;
+            border: 2px solid #fca5a5;
+            padding: 12px 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            font-size: 13px;
+            color: #991b1b;
+        }
+
+        .inventory-warning-item strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--gray-600);
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        .empty-state-text {
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="lang-toggle" onclick="app.toggleLanguage()">
+                <span id="langIndicator">EN</span>
+            </div>
+            <h1 id="headerTitle">🏠 אפליקציית ניקיון מקצועית</h1>
+            <p id="headerSubtitle">מערכת ניהול חכמה</p>
+        </div>
+
+        <div class="content">
+            <!-- Login Screen -->
+            <div class="screen active" id="loginScreen">
+                <div class="form-group">
+                    <label>👤 שם מלא</label>
+                    <input type="text" id="workerName" placeholder="למשל: שרה כהן">
+                </div>
+                <div class="form-group">
+                    <label>🔑 קוד כניסה</label>
+                    <input type="text" id="workerCode" placeholder="הקוד שקיבלת מהמנהל">
+                    <div style="margin-top: 8px; font-size: 13px; color: var(--gray-600);">
+                        לדוגמה: עובדת1234
+                    </div>
+                </div>
+                <button onclick="app.login()">כניסה למערכת ✓</button>
+            </div>
+
+            <!-- Main Screen -->
+            <div class="screen" id="mainScreen">
+                <div class="tabs">
+                    <div class="tab" onclick="app.goHome()">🏠 בית</div>
+                    <div class="tab active" onclick="app.switchTab(&#39;work&#39;)">עבודה</div>
+                    <div class="tab" onclick="app.switchTab(&#39;inventory&#39;)">מלאי</div>
+                    <div class="tab" onclick="app.switchTab(&#39;report&#39;)">תקלות</div>
+                    <div class="tab" onclick="app.switchTab(&#39;summary&#39;)">סיכום</div>
+                </div>
+
+                <!-- Work Tab -->
+                <div class="tab-content active" id="workTab">
+                    <div class="status-badge status-idle" id="statusBadge">
+                        טרם התחלתי לעבוד
+                    </div>
+
+                    <div class="form-group">
+                        <label>🏡 בחרי דירה</label>
+                        <div class="apartment-grid">
+                            <div class="apartment-card" onclick="app.selectApartment(6)">
+                                <div class="icon">✨</div>
+                                <div class="name">דירה 6</div>
+                                <div class="subtitle">
+                                    <span class="badge badge-new">חדש</span>
+                                    <span class="badge badge-special">פנג שואי</span>
+                                </div>
+                            </div>
+                            <div class="apartment-card" onclick="app.selectApartment(7)">
+                                <div class="icon">🏡</div>
+                                <div class="name">דירה 7</div>
+                                <div class="subtitle">קלאסית</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="app.startWork()" id="startBtn">
+                        התחל עבודה והודע למנהל 🚀
+                    </button>
+
+                    <div id="workSection" style="display:none;">
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-fill" id="progressBar" style="width: 0%"></div>
+                        </div>
+                        <div class="progress-text" id="progressText">
+                            0/38 משימות הושלמו
+                        </div>
+
+                        <div id="tasksList"></div>
+
+                        <button onclick="app.completeWork()" class="btn-success">
+                            סיים עבודה ושלח דיווח ✓
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Inventory Tab -->
+                <div class="tab-content" id="inventoryTab">
+                    <div class="alert alert-info">
+                        📦 <strong>מעקב מלאי</strong><br>
+                        כאן יופיעו כל הפריטים שהשלמת מהמחסן במהלך העבודה
+                    </div>
+
+                    <div id="inventoryLogContainer">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📦</div>
+                            <div class="empty-state-text">
+                                התחילי עבודה כדי לעדכן מלאי
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Report Tab -->
+                <div class="tab-content" id="reportTab">
+                    <div class="alert alert-warning">
+                        ⚠️ <strong>דיווח תקלות קריטיות</strong><br>
+                        דווחי רק על בעיות שמונעות אירוח בדירה
+                    </div>
+
+                    <div class="form-group">
+                        <label>סוג התקלה</label>
+                        <select id="issueType">
+                            <option value="">-- בחרי סוג תקלה --</option>
+                            <option value="🚨 דוד לא עובד">🚨 קריטי - דוד לא עובד</option>
+                            <option value="🚨 אין מים בברזים">🚨 קריטי - אין מים בברזים</option>
+                            <option value="🚨 מזגן לא עובד">🚨 קריטי - מזגן לא עובד</option>
+                            <option value="🚨 מיטה שבורה">🚨 קריטי - מיטה שבורה</option>
+                            <option value="🚨 נזילה">🚨 קריטי - נזילה</option>
+                            <option value="⚠️ ציוד לא תקין">⚠️ ציוד לא תקין (TV, WiFi, מיקרוגל...)</option>
+                            <option value="⚠️ נזק או שבר">⚠️ נזק או שבר קל</option>
+                            <option value="ℹ️ אחר">ℹ️ אחר</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>פירוט מדויק של התקלה</label>
+                        <textarea id="issueDescription" placeholder="תארי במדויק מה הבעיה...
+
+לדוגמה:
+- דוד לא מחמם מים - בדקתי את הנורה והיא כבויה
+- השירותים בחדר שינה לא שוטפים
+- אין חיבור לאינטרנט - ניסיתי להתחבר והרשת לא מופיעה"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>📸 תמונות של הבעיה</label>
+                        <label class="photo-upload-area">
+                            <input type="file" id="issuePhotos" accept="image/*" multiple="" style="display:none" onchange="app.previewIssuePhotos()">
+                            📷 לחצי להוספת תמונות
+                        </label>
+                        <div class="photo-preview-grid" id="issuePhotoPreview"></div>
+                    </div>
+
+                    <button onclick="app.submitIssue()">
+                        שלח דיווח תקלה למנהל 📱
+                    </button>
+                </div>
+
+                <!-- Summary Tab -->
+                <div class="tab-content" id="summaryTab">
+                    <div class="section-title">📊 סיכום יום העבודה</div>
+                    
+                    <div id="summaryContent">
+                        <div class="alert alert-info">
+                            עדיין לא התחלת עבודה היום
+                        </div>
+                    </div>
+
+                    <button onclick="app.logout()" class="btn-secondary">
+                        יציאה מהמערכת
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const app = {
+            state: {
+                currentWorker: null,
+                currentApartment: null,
+                isWorking: false,
+                workStartTime: null,
+                workEndTime: null,
+                location: null,
+                tasks: {},
+                inventoryLog: [],
+                expenses: [],
+                issuesReported: [],
+                language: 'he'
+            },
+
+            validCodes: {
+                'עובדת1234': true,
+                'ניקיון2024': true,
+                'test': true,
+                '1234': true
+            },
+
+            taskCategories: [
+                {
+                    name: '1. סריקה ראשונית',
+                    tasks: [
+                        { id: 'initial_1', text: 'בדיקת נזקים חריגים או פריטים חסרים', hasInventory: false },
+                        { id: 'initial_2', text: 'בדיקת חפצים אישיים שנשכחו', hasInventory: false },
+                        { id: 'initial_3', text: 'ריקון כל הפחים ושטיפתם', hasInventory: false },
+                        { id: 'initial_4', text: 'פתיחת חלונות לאוורור', hasInventory: false }
+                    ]
+                },
+                {
+                    name: '2. מטבח ופינת אוכל',
+                    tasks: [
+                        { id: 'kitchen_1', text: 'מקרר: ריקון מזון + ניקוי מדפים ומגירות', hasInventory: false },
+                        { id: 'kitchen_2', text: 'ניקוי מיקרוגל, תנור, קומקום וטוסטר', hasInventory: false },
+                        { id: 'kitchen_3', text: 'כיריים: הסרת שומנים וניקוי יסודי', hasInventory: false },
+                        { id: 'kitchen_4', text: 'כיור וברז: ניקוי והברקה (כולל אבנית)', hasInventory: false },
+                        { id: 'kitchen_5', text: 'ארונות: ניגוב חזיתות וניקוי מגירת סכו"ם', hasInventory: false },
+                        { id: 'kitchen_6', text: 'מלאי: ערכת קפה/תה (סוכר, תה, קפה, ממתיק)', hasInventory: true, inventoryType: 'coffee_tea' },
+                        { id: 'kitchen_7', text: 'קפסולות למכונת קפה (2 לאורח ליום)', hasInventory: true, inventoryType: 'capsules' },
+                        { id: 'kitchen_8', text: 'נוזל כלים וספוג חדש ותקין', hasInventory: true, inventoryType: 'dish_soap' },
+                        { id: 'kitchen_9', text: 'כלים: וידוא 6 מערכות נקיות ויבשות', hasInventory: false }
+                    ]
+                },
+                {
+                    name: '3. חדר רחצה ושירותים',
+                    tasks: [
+                        { id: 'bathroom_1', text: 'אסלה: חיטוי מלא (כולל בסיס ומאחור)', hasInventory: false },
+                        { id: 'bathroom_2', text: 'מקלחת: ניקוי קירות, רצפה וזכוכיות', hasInventory: false },
+                        { id: 'bathroom_3', text: 'מראות: ניקוי ללא סימני ניגוב', hasInventory: false },
+                        { id: 'bathroom_4', text: 'מגבת גוף גדולה לכל אורח (על המיטה)', hasInventory: true, inventoryType: 'towels_body' },
+                        { id: 'bathroom_5', text: 'מגבת פנים/ידיים לכל אורח (על המיטה)', hasInventory: true, inventoryType: 'towels_face' },
+                        { id: 'bathroom_6', text: 'מגבת פנים בחדר מקלחת (סולם/מתקן)', hasInventory: true, inventoryType: 'towels_shower' },
+                        { id: 'bathroom_7', text: 'מגבת רגליים נקיה על הרצפה', hasInventory: true, inventoryType: 'towels_feet' },
+                        { id: 'bathroom_8', text: 'נייר טואלט: 1 על המתקן + 3-4 ברצפה + 2 רזרבה', hasInventory: true, inventoryType: 'toilet_paper' },
+                        { id: 'bathroom_9', text: 'שמפו/מרכך/סבון - מילוי אם פחות מחצי', hasInventory: true, inventoryType: 'bathroom_liquids' }
+                    ]
+                },
+                {
+                    name: '4. חדר שינה',
+                    tasks: [
+                        { id: 'bedroom_1', text: 'מצעים: החלפה מלאה (סדין, ציפיות, שמיכה)', hasInventory: true, inventoryType: 'bedding' },
+                        { id: 'bedroom_2', text: 'וידוא אין כתמים או שיערות על מצעים', hasInventory: false },
+                        { id: 'bedroom_3', text: 'ניגוב שידות לילה ומסגרת המיטה', hasInventory: false },
+                        { id: 'bedroom_4', text: 'ארון: ניקוי מדפים + 6 קולבים תקינים', hasInventory: false },
+                        { id: 'bedroom_5', text: 'תאורת לילה עובדת + שלט מזגן במקום', hasInventory: false }
+                    ]
+                },
+                {
+                    name: '5. סלון וכללי',
+                    tasks: [
+                        { id: 'living_1', text: 'ניקוי אבק: שולחן, מזנון TV ומדפים', hasInventory: false },
+                        { id: 'living_2', text: 'ספה: שאיבת פירורים וסידור כריות', hasInventory: false },
+                        { id: 'living_3', text: 'בדיקת TV, אינטרנט וניקוי שלטים', hasInventory: false },
+                        { id: 'living_4', text: 'רצפה: שאיבה יסודית ושטיפה ריחנית', hasInventory: false },
+                        { id: 'living_5', text: 'חלונות ותריסים: ניקוי זכוכיות ומסילות', hasInventory: false }
+                    ]
+                },
+                {
+                    name: '6. בדיקת סיום וחוויית אורח',
+                    tasks: [
+                        { id: 'finish_1', text: 'וידוא ריח טוב (מבשם במידת הצורך)', hasInventory: false },
+                        { id: 'finish_2', text: 'בדיקת מים חמים (הדלקת דוד)', hasInventory: false },
+                        { id: 'finish_3', text: 'כיבוי כל האורות והמזגנים', hasInventory: false },
+                        { id: 'finish_4', text: 'ערכת וולקם במקום בולט (מים/שוקולד)', hasInventory: true, inventoryType: 'welcome' },
+                        { id: 'finish_5', text: 'נעילת חלונות ודלת מרפסת', hasInventory: false },
+                        { id: 'finish_6', text: 'וידוא מפתחות/קודן מוכנים', hasInventory: false }
+                    ]
+                }
+            ],
+
+            inventoryItems: {
+                coffee_tea: { name: 'קפה/תה/סוכר/ממתיק', unit: 'פריטים' },
+                capsules: { name: 'קפסולות קפה', unit: 'יחידות' },
+                dish_soap: { name: 'נוזל כלים וספוג', unit: 'פריטים' },
+                towels_body: { name: 'מגבות גוף', unit: 'מגבות' },
+                towels_face: { name: 'מגבות פנים', unit: 'מגבות' },
+                towels_shower: { name: 'מגבת למקלחת', unit: 'מגבות' },
+                towels_feet: { name: 'מגבת רגליים', unit: 'מגבות' },
+                toilet_paper: { name: 'נייר טואלט', unit: 'גלילים' },
+                bathroom_liquids: { name: 'שמפו/מרכך/סבון (גלון 4 ליטר)', unit: 'גלונים' },
+                bedding: { name: 'סטים של מצעים', unit: 'סטים' },
+                welcome: { name: 'ערכת וולקם (מים/שוקולד)', unit: 'פריטים' }
+            },
+
+            login() {
+                const name = document.getElementById('workerName').value.trim();
+                const code = document.getElementById('workerCode').value.trim();
+
+                if (!name || !code) {
+                    alert('❌ נא למלא שם וקוד כניסה');
+                    return;
+                }
+
+                if (this.validCodes[code]) {
+                    this.state.currentWorker = name;
+                    document.getElementById('loginScreen').classList.remove('active');
+                    document.getElementById('mainScreen').classList.add('active');
+                    document.getElementById('headerSubtitle').textContent = `שלום ${name} 👋`;
+                } else {
+                    alert('❌ קוד שגוי!\n\nקודים נכונים:\n• עובדת1234\n• ניקיון2024\n• 1234');
+                }
+            },
+
+            logout() {
+                if (confirm('האם את בטוחה שאת רוצה לצאת מהמערכת?')) {
+                    // Reset all state
+                    this.state = {
+                        currentWorker: null,
+                        currentApartment: null,
+                        isWorking: false,
+                        workStartTime: null,
+                        workEndTime: null,
+                        location: null,
+                        tasks: {},
+                        inventoryLog: [],
+                        expenses: [],
+                        issuesReported: [],
+                        language: 'he'
+                    };
+                    
+                    // Reset UI
+                    document.getElementById('mainScreen').classList.remove('active');
+                    document.getElementById('loginScreen').classList.add('active');
+                    document.getElementById('headerSubtitle').textContent = 'מערכת ניהול חכמה';
+                    document.getElementById('workerName').value = '';
+                    document.getElementById('workerCode').value = '';
+                    document.getElementById('statusBadge').textContent = 'טרם התחלתי לעבוד';
+                    document.getElementById('statusBadge').className = 'status-badge status-idle';
+                }
+            },
+
+            selectApartment(num) {
+                if (this.state.isWorking) return;
+                
+                this.state.currentApartment = num;
+                document.querySelectorAll('.apartment-card').forEach(card => {
+                    card.classList.remove('selected');
+                });
+                event.target.closest('.apartment-card').classList.add('selected');
+            },
+
+            goHome() {
+                if (this.state.isWorking) {
+                    if (!confirm('יש עבודה פעילה. האם לעצור את העבודה וחזור למסך הבית?')) {
+                        return;
+                    }
+                    this.state.isWorking = false;
+                }
+                
+                // Reset UI to home
+                document.getElementById('workSection').style.display = 'none';
+                document.getElementById('startBtn').style.display = 'block';
+                document.getElementById('startBtn').textContent = 'התחל עבודה והודע למנהל 🚀';
+                document.getElementById('statusBadge').textContent = 'טרם התחלתי לעבוד';
+                document.getElementById('statusBadge').className = 'status-badge status-idle';
+                
+                document.querySelectorAll('.apartment-card').forEach(card => {
+                    card.classList.remove('selected');
+                    card.style.opacity = '1';
+                    card.style.pointerEvents = 'auto';
+                });
+                
+                this.state.currentApartment = null;
+                this.switchTab('work');
+            },
+
+            switchTab(tab) {
+                // Update tabs
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Find and activate the right tab
+                const tabs = document.querySelectorAll('.tab');
+                tabs.forEach(t => {
+                    if (t.textContent.includes('עבודה') && tab === 'work') {
+                        t.classList.add('active');
+                    } else if (t.textContent.includes('מלאי') && tab === 'inventory') {
+                        t.classList.add('active');
+                    } else if (t.textContent.includes('תקלות') && tab === 'report') {
+                        t.classList.add('active');
+                    } else if (t.textContent.includes('סיכום') && tab === 'summary') {
+                        t.classList.add('active');
+                    }
+                });
+                
+                document.getElementById(tab + 'Tab').classList.add('active');
+            },
+
+            startWork() {
+                if (!this.state.currentApartment) {
+                    alert('❌ נא לבחור דירה תחילה');
+                    return;
+                }
+
+                this.state.workStartTime = new Date();
+                this.state.isWorking = true;
+
+                // Update UI
+                document.getElementById('statusBadge').textContent = `עובדת בדירה ${this.state.currentApartment} 🟢`;
+                document.getElementById('statusBadge').className = 'status-badge status-working';
+                document.getElementById('startBtn').style.display = 'none';
+                document.getElementById('workSection').style.display = 'block';
+
+                // Disable apartment selection
+                document.querySelectorAll('.apartment-card').forEach(card => {
+                    card.style.opacity = '0.5';
+                    card.style.pointerEvents = 'none';
+                });
+
+                // Create task list
+                this.createTaskList();
+
+                // Get location
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        (pos) => {
+                            this.state.location = {
+                                lat: pos.coords.latitude,
+                                lng: pos.coords.longitude
+                            };
+                            alert(`✅ התחלת עבודה!\n\nדירה ${this.state.currentApartment}\nשעה: ${this.state.workStartTime.toLocaleTimeString('he-IL')}\nמיקום: אומת ✓\n\nהמנהל קיבל הודעה 📱`);
+                        },
+                        () => {
+                            alert(`✅ התחלת עבודה!\n\nדירה ${this.state.currentApartment}\nשעה: ${this.state.workStartTime.toLocaleTimeString('he-IL')}\n\nהמנהל קיבל הודעה 📱`);
+                        }
+                    );
+                } else {
+                    alert(`✅ התחלת עבודה!\n\nדירה ${this.state.currentApartment}\nשעה: ${this.state.workStartTime.toLocaleTimeString('he-IL')}\n\nהמנהל קיבל הודעה 📱`);
+                }
+            },
+
+            createTaskList() {
+                const container = document.getElementById('tasksList');
+                container.innerHTML = '';
+
+                this.taskCategories.forEach(category => {
+                    const categoryDiv = document.createElement('div');
+                    categoryDiv.className = 'category-header';
+                    categoryDiv.textContent = category.name;
+                    container.appendChild(categoryDiv);
+
+                    category.tasks.forEach(task => {
+                        const taskDiv = document.createElement('div');
+                        taskDiv.className = 'task-item';
+                        if (task.hasInventory) {
+                            taskDiv.classList.add('has-inventory');
+                        }
+
+                        let inventoryHtml = '';
+                        if (task.hasInventory) {
+                            const invItem = this.inventoryItems[task.inventoryType];
+                            inventoryHtml = `
+                                <div class="task-expand-btn" onclick="app.toggleTaskDetails('${task.id}')">
+                                    📦 מלאי
+                                </div>
+                                <div class="task-details" id="details_${task.id}">
+                                    <div class="inventory-options">
+                                        <div class="inventory-option" onclick="app.selectInventoryOption('${task.id}', 'full')">
+                                            <input type="radio" name="inv_${task.id}" id="inv_${task.id}_full">
+                                            <label for="inv_${task.id}_full">✅ היה מלא - לא נדרש כלום</label>
+                                        </div>
+                                        <div class="inventory-option" onclick="app.selectInventoryOption('${task.id}', 'refilled')">
+                                            <input type="radio" name="inv_${task.id}" id="inv_${task.id}_refilled">
+                                            <label for="inv_${task.id}_refilled">🔄 השלמתי מהמחסן</label>
+                                        </div>
+                                        <div class="inventory-option" onclick="app.selectInventoryOption('${task.id}', 'purchased')">
+                                            <input type="radio" name="inv_${task.id}" id="inv_${task.id}_purchased">
+                                            <label for="inv_${task.id}_purchased">🛒 קניתי</label>
+                                        </div>
+                                    </div>
+                                    <div id="quantity_${task.id}" style="display:none;">
+                                        <div class="quantity-input">
+                                            <input type="number" id="qty_${task.id}" placeholder="כמה ${invItem.unit}?" min="1">
+                                        </div>
+                                    </div>
+                                    <div id="expense_${task.id}" style="display:none;">
+                                        <div class="expense-inputs">
+                                            <input type="number" id="exp_qty_${task.id}" placeholder="כמה ${invItem.unit}?" min="1">
+                                            <input type="number" id="exp_cost_${task.id}" placeholder="כמה עלה? (₪)" min="0" step="0.01">
+                                            <label class="photo-upload-area">
+                                                <input type="file" id="receipt_${task.id}" accept="image/*" style="display:none" onchange="app.previewReceipt('${task.id}')">
+                                                📷 צלמי חשבונית
+                                            </label>
+                                            <div class="photo-preview-grid" id="receipt_preview_${task.id}"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        }
+
+                        taskDiv.innerHTML = `
+                            <div class="task-header" onclick="app.toggleTask('${task.id}')">
+                                <input type="checkbox" id="task_${task.id}">
+                                <label for="task_${task.id}">${task.text}</label>
+                                ${task.hasInventory ? inventoryHtml : ''}
+                            </div>
+                        `;
+                        container.appendChild(taskDiv);
+                    });
+                });
+            },
+
+            toggleTask(taskId) {
+                const checkbox = document.getElementById(`task_${taskId}`);
+                const taskDiv = checkbox.closest('.task-item');
+                
+                checkbox.checked = !checkbox.checked;
+                this.state.tasks[taskId] = checkbox.checked;
+
+                if (checkbox.checked) {
+                    taskDiv.classList.add('completed');
+                } else {
+                    taskDiv.classList.remove('completed');
+                }
+
+                this.updateProgress();
+            },
+
+            toggleTaskDetails(taskId) {
+                event.stopPropagation();
+                const details = document.getElementById(`details_${taskId}`);
+                details.classList.toggle('active');
+            },
+
+            selectInventoryOption(taskId, option) {
+                event.stopPropagation();
+                const radio = document.getElementById(`inv_${taskId}_${option}`);
+                radio.checked = true;
+
+                // Hide all inputs
+                document.getElementById(`quantity_${taskId}`).style.display = 'none';
+                document.getElementById(`expense_${taskId}`).style.display = 'none';
+
+                // Show relevant input
+                if (option === 'refilled') {
+                    document.getElementById(`quantity_${taskId}`).style.display = 'block';
+                } else if (option === 'purchased') {
+                    document.getElementById(`expense_${taskId}`).style.display = 'block';
+                }
+
+                // Update inventory options styling
+                document.querySelectorAll(`input[name="inv_${taskId}"]`).forEach(r => {
+                    r.closest('.inventory-option').classList.remove('selected');
+                });
+                radio.closest('.inventory-option').classList.add('selected');
+            },
+
+            previewReceipt(taskId) {
+                const input = document.getElementById(`receipt_${taskId}`);
+                const preview = document.getElementById(`receipt_preview_${taskId}`);
+                
+                preview.innerHTML = '';
+                
+                if (input.files && input.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        preview.appendChild(img);
+                    };
+                    reader.readAsDataURL(input.files[0]);
+                }
+            },
+
+            updateProgress() {
+                const totalTasks = this.taskCategories.reduce((sum, cat) => sum + cat.tasks.length, 0);
+                const completed = Object.values(this.state.tasks).filter(Boolean).length;
+                const percent = (completed / totalTasks) * 100;
+
+                document.getElementById('progressBar').style.width = percent + '%';
+                document.getElementById('progressText').textContent = `${completed}/${totalTasks} משימות הושלמו`;
+            },
+
+            completeWork() {
+                const totalTasks = this.taskCategories.reduce((sum, cat) => sum + cat.tasks.length, 0);
+                const completed = Object.values(this.state.tasks).filter(Boolean).length;
+
+                if (completed < totalTasks * 0.7) {
+                    if (!confirm(`סימנת רק ${completed} מתוך ${totalTasks} משימות.\nלהמשיך בכל זאת?`)) {
+                        return;
+                    }
+                }
+
+                // Collect inventory data
+                this.collectInventoryData();
+
+                this.state.workEndTime = new Date();
+                const duration = (this.state.workEndTime - this.state.workStartTime) / (1000 * 60);
+                const hours = Math.floor(duration / 60);
+                const minutes = Math.floor(duration % 60);
+
+                // Generate summary
+                this.generateSummary(hours, minutes, completed, totalTasks);
+
+                alert(`✅ מעולה!\n\nדירה ${this.state.currentApartment} הושלמה\nזמן: ${hours}:${minutes.toString().padStart(2,'0')}\nמשימות: ${completed}/${totalTasks}\n\nהמנהל קיבל את הדיווח המלא 📱`);
+
+                // Reset for next work
+                this.state.isWorking = false;
+                document.getElementById('statusBadge').textContent = 'עבודה הושלמה ✅';
+                document.getElementById('statusBadge').className = 'status-badge status-completed';
+                document.getElementById('workSection').style.display = 'none';
+                document.getElementById('startBtn').style.display = 'block';
+                document.getElementById('startBtn').textContent = 'התחל עבודה נוספת 🚀';
+                
+                document.querySelectorAll('.apartment-card').forEach(card => {
+                    card.classList.remove('selected');
+                    card.style.opacity = '1';
+                    card.style.pointerEvents = 'auto';
+                });
+
+                this.state.currentApartment = null;
+                this.switchTab('summary');
+            },
+
+            collectInventoryData() {
+                this.state.inventoryLog = [];
+                this.state.expenses = [];
+
+                this.taskCategories.forEach(category => {
+                    category.tasks.forEach(task => {
+                        if (task.hasInventory) {
+                            const refilled = document.getElementById(`inv_${task.id}_refilled`);
+                            const purchased = document.getElementById(`inv_${task.id}_purchased`);
+
+                            if (refilled && refilled.checked) {
+                                const qty = document.getElementById(`qty_${task.id}`).value;
+                                if (qty) {
+                                    const item = this.inventoryItems[task.inventoryType];
+                                    this.state.inventoryLog.push({
+                                        item: item.name,
+                                        quantity: qty,
+                                        unit: item.unit,
+                                        type: 'refilled'
+                                    });
+                                }
+                            }
+
+                            if (purchased && purchased.checked) {
+                                const qty = document.getElementById(`exp_qty_${task.id}`).value;
+                                const cost = document.getElementById(`exp_cost_${task.id}`).value;
+                                if (qty && cost) {
+                                    const item = this.inventoryItems[task.inventoryType];
+                                    this.state.expenses.push({
+                                        item: item.name,
+                                        quantity: qty,
+                                        unit: item.unit,
+                                        cost: parseFloat(cost)
+                                    });
+                                }
+                            }
+                        }
+                    });
+                });
+
+                this.updateInventoryTab();
+            },
+
+            updateInventoryTab() {
+                const container = document.getElementById('inventoryLogContainer');
+                
+                if (this.state.inventoryLog.length === 0 && this.state.expenses.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📦</div>
+                            <div class="empty-state-text">לא נרשם מלאי שהושלם</div>
+                        </div>
+                    `;
+                    return;
+                }
+
+                let html = '<div class="inventory-log">';
+
+                if (this.state.inventoryLog.length > 0) {
+                    html += '<h3 style="margin-bottom:15px;">📦 מלאי שהושלם מהמחסן:</h3>';
+                    this.state.inventoryLog.forEach(log => {
+                        html += `
+                            <div class="inventory-log-item">
+                                <strong>${log.item}</strong>
+                                <span>כמות: ${log.quantity} ${log.unit}</span>
+                            </div>
+                        `;
+                    });
+                }
+
+                if (this.state.expenses.length > 0) {
+                    html += '<h3 style="margin:25px 0 15px;">🛒 רכישות שבוצעו:</h3>';
+                    this.state.expenses.forEach(exp => {
+                        html += `
+                            <div class="inventory-log-item">
+                                <strong>${exp.item}</strong>
+                                <span>כמות: ${exp.quantity} ${exp.unit} | עלות: ${exp.cost}₪</span>
+                            </div>
+                        `;
+                    });
+
+                    const totalExpenses = this.state.expenses.reduce((sum, exp) => sum + exp.cost, 0);
+                    html += `
+                        <div class="expense-summary">
+                            <div class="expense-item">
+                                <span><strong>סה"כ להחזר לעובדת:</strong></span>
+                                <span><strong>${totalExpenses.toFixed(2)}₪</strong></span>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                html += '</div>';
+                container.innerHTML = html;
+            },
+
+            generateSummary(hours, minutes, completed, total) {
+                let html = `
+                    <div class="alert alert-success">
+                        ✅ עבודה הושלמה בהצלחה!
+                    </div>
+                    
+                    <button onclick="app.exportReport()" class="btn-success" style="margin-bottom: 20px;">
+                        📤 שלח דוח למנהל בוואטסאפ
+                    </button>
+                    
+                    <div class="summary-card">
+                        <p><strong>דירה:</strong> דירה ${this.state.currentApartment}</p>
+                        <p><strong>עובדת:</strong> ${this.state.currentWorker}</p>
+                        <p><strong>תאריך:</strong> ${this.state.workEndTime.toLocaleDateString('he-IL')}</p>
+                        <p><strong>התחלה:</strong> ${this.state.workStartTime.toLocaleTimeString('he-IL')}</p>
+                        <p><strong>סיום:</strong> ${this.state.workEndTime.toLocaleTimeString('he-IL')}</p>
+                        <p><strong>משך עבודה:</strong> ${hours} שעות ו-${minutes} דקות</p>
+                        <p><strong>משימות:</strong> ${completed}/${total} הושלמו (${Math.round((completed/total)*100)}%)</p>
+                        ${this.state.location ? '<p><strong>מיקום:</strong> מאומת ✓</p>' : ''}
+                    </div>
+                `;
+
+                if (this.state.inventoryLog.length > 0) {
+                    html += '<h3 style="margin-top:25px; margin-bottom:15px;">📦 מלאי שהושלם מהמחסן:</h3>';
+                    html += '<div class="summary-card">';
+                    this.state.inventoryLog.forEach(log => {
+                        html += `<p>• ${log.item}: ${log.quantity} ${log.unit}</p>`;
+                    });
+                    html += '</div>';
+                }
+
+                if (this.state.expenses.length > 0) {
+                    html += '<h3 style="margin-top:25px; margin-bottom:15px;">💰 הוצאות לההחזר:</h3>';
+                    html += '<div class="expense-summary">';
+                    this.state.expenses.forEach(exp => {
+                        html += `
+                            <div class="expense-item">
+                                <span>${exp.item} (${exp.quantity} ${exp.unit})</span>
+                                <span>${exp.cost}₪</span>
+                            </div>
+                        `;
+                    });
+                    const totalExp = this.state.expenses.reduce((sum, exp) => sum + exp.cost, 0);
+                    html += `
+                        <div class="expense-item">
+                            <span>סה"כ להחזר:</span>
+                            <span>${totalExp.toFixed(2)}₪</span>
+                        </div>
+                    `;
+                    html += '</div>';
+                }
+
+                if (this.state.issuesReported.length > 0) {
+                    html += '<h3 style="margin-top:25px; margin-bottom:15px;">⚠️ תקלות שדווחו:</h3>';
+                    html += '<div class="summary-card">';
+                    this.state.issuesReported.forEach(issue => {
+                        html += `<p style="color: #991b1b;">• ${issue.type}</p>`;
+                    });
+                    html += '</div>';
+                }
+
+                document.getElementById('summaryContent').innerHTML = html;
+            },
+
+            exportReport() {
+                // Generate report text
+                let report = `📋 *דוח ניקיון - דירה ${this.state.currentApartment}*\n\n`;
+                report += `👤 עובדת: ${this.state.currentWorker}\n`;
+                report += `📅 תאריך: ${this.state.workEndTime.toLocaleDateString('he-IL')}\n`;
+                report += `⏰ שעות: ${this.state.workStartTime.toLocaleTimeString('he-IL')} - ${this.state.workEndTime.toLocaleTimeString('he-IL')}\n`;
+                
+                const duration = (this.state.workEndTime - this.state.workStartTime) / (1000 * 60);
+                const hours = Math.floor(duration / 60);
+                const minutes = Math.floor(duration % 60);
+                report += `⏱️ סה"כ: ${hours}:${minutes.toString().padStart(2,'0')} שעות\n\n`;
+                
+                const totalTasks = this.taskCategories.reduce((sum, cat) => sum + cat.tasks.length, 0);
+                const completed = Object.values(this.state.tasks).filter(Boolean).length;
+                report += `✅ משימות: ${completed}/${totalTasks} (${Math.round((completed/totalTasks)*100)}%)\n\n`;
+
+                if (this.state.inventoryLog.length > 0) {
+                    report += `📦 *מלאי שהושלם מהמחסן:*\n`;
+                    this.state.inventoryLog.forEach(log => {
+                        report += `  • ${log.item}: ${log.quantity} ${log.unit}\n`;
+                    });
+                    report += `\n`;
+                }
+
+                if (this.state.expenses.length > 0) {
+                    report += `💰 *רכישות:*\n`;
+                    this.state.expenses.forEach(exp => {
+                        report += `  • ${exp.item}: ${exp.quantity} ${exp.unit} - ${exp.cost}₪\n`;
+                    });
+                    const total = this.state.expenses.reduce((sum, exp) => sum + exp.cost, 0);
+                    report += `  *סה"כ להחזר: ${total.toFixed(2)}₪*\n\n`;
+                }
+
+                if (this.state.issuesReported.length > 0) {
+                    report += `⚠️ *תקלות:*\n`;
+                    this.state.issuesReported.forEach(issue => {
+                        report += `  • ${issue.type}\n`;
+                    });
+                }
+
+                // Encode for WhatsApp
+                const encoded = encodeURIComponent(report);
+                const whatsappUrl = `https://wa.me/?text=${encoded}`;
+                
+                // Open WhatsApp
+                window.open(whatsappUrl, '_blank');
+            },
+
+            submitIssue() {
+                const type = document.getElementById('issueType').value;
+                const desc = document.getElementById('issueDescription').value.trim();
+
+                if (!type) {
+                    alert('❌ נא לבחור סוג תקלה');
+                    return;
+                }
+
+                if (!desc) {
+                    alert('❌ נא לפרט את התקלה');
+                    return;
+                }
+
+                this.state.issuesReported.push({
+                    type: type,
+                    description: desc,
+                    apartment: this.state.currentApartment || 'לא צוין',
+                    time: new Date()
+                });
+
+                alert(`✅ תקלה דווחה!\n\nסוג: ${type}\n\nהמנהל קיבל את הדיווח 📱`);
+
+                // Reset form
+                document.getElementById('issueType').value = '';
+                document.getElementById('issueDescription').value = '';
+                document.getElementById('issuePhotoPreview').innerHTML = '';
+            },
+
+            previewIssuePhotos() {
+                const input = document.getElementById('issuePhotos');
+                const preview = document.getElementById('issuePhotoPreview');
+                
+                preview.innerHTML = '';
+                
+                if (input.files) {
+                    Array.from(input.files).forEach(file => {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            const img = document.createElement('img');
+                            img.src = e.target.result;
+                            preview.appendChild(img);
+                        };
+                        reader.readAsDataURL(file);
+                    });
+                }
+            },
+
+            toggleLanguage() {
+                // Simple language toggle - can be expanded
+                if (this.state.language === 'he') {
+                    this.state.language = 'en';
+                    document.getElementById('langIndicator').textContent = 'עב';
+                    // Would add English translations here
+                } else {
+                    this.state.language = 'he';
+                    document.getElementById('langIndicator').textContent = 'EN';
+                }
+            }
+        };
+    </script>
+
+</body></html>

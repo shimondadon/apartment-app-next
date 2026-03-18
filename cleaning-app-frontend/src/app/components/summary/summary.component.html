@@ -1,0 +1,88 @@
+<div>
+  <div class="section-title">📊 סיכום עבודה</div>
+
+  <div *ngIf="recentSessions.length > 1" style="margin-bottom: 15px;">
+    <label style="font-weight: 600; margin-bottom: 8px; display: block;">בחר עבודה:</label>
+    <select (change)="loadSummary($any($event.target).value)" 
+            [value]="selectedSessionId"
+            style="width: 100%; padding: 12px; border: 2px solid var(--gray-200); border-radius: 10px; font-size: 15px;">
+      <option *ngFor="let session of recentSessions" [value]="session.id">
+        {{ formatDate(session.startTime) }} - {{ session.apartmentId }} דירה - {{ formatTime(session.startTime) }}
+      </option>
+    </select>
+  </div>
+
+  <div *ngIf="isLoading" style="text-align: center; padding: 40px;">
+    <div>טוען...</div>
+  </div>
+
+  <div *ngIf="!isLoading && !summary && recentSessions.length === 0" class="empty-state">
+    <div class="empty-state-icon">📊</div>
+    <div class="empty-state-text">
+      התחילי עבודה כדי לראות סיכום
+    </div>
+  </div>
+
+  <div *ngIf="!isLoading && summary">
+    <div class="summary-card">
+      <p><strong>👤 עובדת:</strong> {{ summary.worker.name }}</p>
+      <p><strong>🏡 דירה:</strong> {{ summary.apartment.name }}</p>
+      <p><strong>📅 תאריך:</strong> {{ formatDate(summary.startTime) }}</p>
+      <p><strong>⏰ שעת התחלה:</strong> {{ formatTime(summary.startTime) }}</p>
+      <p *ngIf="summary.endTime">
+        <strong>⏱ שעת סיום:</strong> {{ formatTime(summary.endTime) }}
+      </p>
+      <p *ngIf="summary.duration">
+        <strong>⌛ משך:</strong> {{ formatDuration(summary.duration) }}
+      </p>
+    </div>
+
+    <div class="summary-card">
+      <p>
+        <strong>✓ משימות שהושלמו:</strong>
+        {{ summary.tasksCompleted }} מתוך {{ summary.totalTasks }}
+        ({{ getCompletionPercentage() }}%)
+      </p>
+      
+      <div class="progress-bar-container">
+        <div class="progress-bar-fill" [style.width.%]="getCompletionPercentage()"></div>
+      </div>
+    </div>
+
+    <div *ngIf="summary.inventoryUsed && summary.inventoryUsed.length > 0">
+      <div class="section-title">📦 מלאי שנוצל</div>
+      <div class="inventory-log">
+        <div *ngFor="let log of summary.inventoryUsed" class="inventory-log-item">
+          <strong>משימה: {{ log.taskId }}</strong>
+          <span *ngFor="let item of log.items">
+            {{ item.name }}: {{ item.quantity }} {{ item.unit }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="summary.issuesReported && summary.issuesReported.length > 0">
+      <div class="section-title">🚨 תקלות שדווחו</div>
+      <div *ngFor="let issue of summary.issuesReported" class="alert alert-warning">
+        <strong>{{ issue.category }}</strong><br>
+        {{ issue.description }}
+      </div>
+    </div>
+
+    <div *ngIf="(!summary.inventoryUsed || summary.inventoryUsed.length === 0) && 
+                (!summary.issuesReported || summary.issuesReported.length === 0)">
+      <div class="alert alert-success">
+        עבודה נקייה ללא תקלות! 🌟
+      </div>
+    </div>
+
+    <!-- WhatsApp Share Button -->
+    <button 
+      (click)="shareToWhatsApp()" 
+      class="btn-success"
+      style="margin-top: 20px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+      <span style="font-size: 20px;">💬</span>
+      שלח דוח ל-WhatsApp
+    </button>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+<div>
+  <div class="section-title">📦 יומן מלאי</div>
+
+  <div *ngIf="inventoryLogs.length === 0" class="empty-state">
+    <div class="empty-state-icon">📦</div>
+    <div class="empty-state-text">טרם נרשמו פריטי מלאי</div>
+  </div>
+
+  <div class="inventory-log" *ngIf="inventoryLogs.length > 0">
+    <div *ngFor="let log of inventoryLogs" class="inventory-log-item">
+      <strong>{{ log.task }}</strong>
+      <span *ngFor="let item of log.items">
+        {{ item.name }}: {{ item.quantity }} {{ item.unit }}
+      </span>
+      <span style="color: var(--gray-600);">⏰ {{ log.time }}</span>
+    </div>
+  </div>
+
+  <div class="inventory-warnings" *ngIf="getLowStockWarnings().length > 0">
+    <div class="section-title">⚠ אזהרות מלאי</div>
+    <div *ngFor="let warning of getLowStockWarnings()" class="inventory-warning-item">
+      <strong>{{ warning.product }}</strong>
+      נותר: {{ warning.current }} (מינימום: {{ warning.threshold }})
+    </div>
+  </div>
+</div>

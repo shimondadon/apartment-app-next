@@ -1,0 +1,21 @@
+<div class="apartment-grid">
+  <div 
+    *ngFor="let apartment of apartments"
+    class="apartment-card"
+    [class.selected]="selectedApartmentId === apartment.id"
+    (click)="selectApartment(apartment.id)"
+  >
+    <div class="icon">{{ apartment.icon }}</div>
+    <div class="name">{{ apartment.name }}</div>
+    <div class="subtitle" *ngIf="apartment.badges && apartment.badges.length > 0">
+      <span 
+        *ngFor="let badge of apartment.badges"
+        class="badge"
+        [class.badge-new]="badge.type === 'new'"
+        [class.badge-special]="badge.type === 'special'"
+      >
+        {{ badge.label }}
+      </span>
+    </div>
+  </div>
+</div>

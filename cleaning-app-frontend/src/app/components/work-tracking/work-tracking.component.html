@@ -1,0 +1,28 @@
+<div>
+  <div class="status-badge" [ngClass]="getStatusClass()">
+    {{ getStatusText() }}
+  </div>
+
+  <div *ngIf="isWorking" class="timer-display">
+    {{ getFormattedTime() }}
+  </div>
+
+  <div *ngIf="!isWorking">
+    <div class="form-group">
+      <label>🏡 בחרי דירה</label>
+      <app-apartment-selection (apartmentSelected)="onApartmentSelected($event)"></app-apartment-selection>
+    </div>
+
+    <button (click)="startWork()" [disabled]="!selectedApartmentId">
+      התחל עבודה ▶
+    </button>
+  </div>
+
+  <div *ngIf="isWorking">
+    <app-task-checklist></app-task-checklist>
+    
+    <button class="btn-secondary" (click)="endWork()" style="margin-top: 20px;">
+      סיים עבודה ⏹
+    </button>
+  </div>
+</div>

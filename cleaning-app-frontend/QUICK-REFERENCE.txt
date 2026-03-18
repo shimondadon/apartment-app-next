@@ -1,0 +1,189 @@
+╔════════════════════════════════════════════════════════════════════════╗
+║                   ANGULAR CLEANING APP                                 ║
+║                    QUICK REFERENCE CARD                                ║
+╚════════════════════════════════════════════════════════════════════════╝
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ 🚀 START COMMANDS                                                    │
+├─────────────────────────────────────────────────────────────────────┤
+│ Install:           npm install                                       │
+│ Dev Server:        npm start                                         │
+│ Build:             npm run build                                     │
+│ Test:              npm test                                          │
+│                                                                       │
+│ Frontend URL:      http://localhost:4200                             │
+│ Backend URL:       http://localhost:3001                             │
+└─────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ 📁 KEY FILES                                                         │
+├─────────────────────────────────────────────────────────────────────┤
+│ Config:            angular.json, tsconfig.json                       │
+│ Bootstrap:         src/main.ts                                       │
+│ Styles:            src/styles.css (12KB)                             │
+│ Routes:            src/app/app.routes.ts                             │
+│ App Config:        src/app/app.config.ts                             │
+│ Types:             src/app/models/types.ts                           │
+└─────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ 🧩 COMPONENTS                                                        │
+├─────────────────────────────────────────────────────────────────────┤
+│ Login              → Authentication UI                               │
+│ Main               → Dashboard with tabs                             │
+│ ApartmentSelection → Apartment grid picker                           │
+│ WorkTracking       → Timer & session controls                        │
+│ TaskChecklist      → Task list with inventory                        │
+│ Inventory          → Usage logs & warnings                           │
+│ Issues             → Issue reporting form                            │
+│ Summary            → Work session summary                            │
+└─────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ ⚙️ SERVICES                                                          │
+├─────────────────────────────────────────────────────────────────────┤
+│ ApiService         → HTTP client (all API calls)                     │
+│ AuthService        → JWT authentication & storage                    │
+│ WorkService        → Work session & timer                            │
+│ TranslationService → Hebrew/English i18n                             │
+└─────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ 🔒 SECURITY                                                          │
+├─────────────────────────────────────────────────────────────────────┤
+│ Guard:             authGuard() - protects /main route                │
+│ Interceptor:       authInterceptor() - adds JWT to requests          │
+│ Token Storage:     localStorage ('cleaning_app_token')               │
+│ Worker Storage:    localStorage ('cleaning_app_worker')              │
+└─────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ 🌐 ROUTES                                                            │
+├─────────────────────────────────────────────────────────────────────┤
+│ /                  → Redirect to /login                              │
+│ /login             → LoginComponent (public)                         │
+│ /main              → MainComponent (protected)                       │
+│ /**                → Redirect to /login                              │
+└─────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ 🔌 API ENDPOINTS                                                     │
+├─────────────────────────────────────────────────────────────────────┤
+│ POST /api/auth/login           - Login                               │
+│ GET  /api/apartments           - Get apartments                      │
+│ POST /api/work/start           - Start work                          │
+│ POST /api/work/end             - End work                            │
+│ GET  /api/work/current/:id     - Current session                     │
+│ GET  /api/tasks                - Get tasks                           │
+│ POST /api/tasks/complete       - Complete task                       │
+│ POST /api/issues/report        - Report issue                        │
+│ GET  /api/summary/:id          - Work summary                        │
+└─────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ 🎨 STYLING                                                           │
+├─────────────────────────────────────────────────────────────────────┤
+│ Primary:           #667eea (Purple)                                  │
+│ Secondary:         #764ba2 (Dark Purple)                             │
+│ Success:           #10b981 (Green)                                   │
+│ Warning:           #f59e0b (Orange)                                  │
+│ Danger:            #ef4444 (Red)                                     │
+│                                                                       │
+│ Font:              -apple-system, BlinkMacSystemFont, 'Segoe UI'     │
+│ RTL Support:       Yes (Hebrew)                                      │
+│ Mobile-First:      Yes                                               │
+└─────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ 🌍 INTERNATIONALIZATION                                              │
+├─────────────────────────────────────────────────────────────────────┤
+│ Languages:         Hebrew (he) RTL, English (en) LTR                 │
+│ Toggle:            Click button in header                            │
+│ Storage:           localStorage ('app_language')                     │
+│ Service:           TranslationService                                │
+└─────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ 📱 RESPONSIVE BREAKPOINTS                                            │
+├─────────────────────────────────────────────────────────────────────┤
+│ Mobile:            < 768px (base styles)                             │
+│ Tablet:            ≥ 768px (grid adjustments)                        │
+│ Desktop:           ≥ 1024px (max-width: 600px container)             │
+└─────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ 🔄 STATE MANAGEMENT                                                  │
+├─────────────────────────────────────────────────────────────────────┤
+│ Pattern:           Service-based with RxJS BehaviorSubjects          │
+│ Auth State:        AuthService.currentWorker$                        │
+│ Session State:     WorkService.currentSession$                       │
+│ Timer State:       WorkService.timer$                                │
+│ Language State:    TranslationService.currentLanguage$               │
+└─────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ 📖 DOCUMENTATION                                                     │
+├─────────────────────────────────────────────────────────────────────┤
+│ README.md          → Project overview                                │
+│ SETUP-GUIDE.md     → Detailed setup (8KB)                            │
+│ ARCHITECTURE.md    → Component tree & data flow (7KB)                │
+│ FILE-CHECKLIST.md  → Complete file inventory                         │
+│ PROJECT-SUMMARY.md → Completion summary (10KB)                       │
+│ PROJECT-TREE.txt   → Visual directory structure                      │
+└─────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ ✅ TESTING CHECKLIST                                                 │
+├─────────────────────────────────────────────────────────────────────┤
+│ □ npm install                                                        │
+│ □ npm start                                                          │
+│ □ App loads at localhost:4200                                        │
+│ □ Login with credentials                                             │
+│ □ Language toggle works                                              │
+│ □ Apartment selection works                                          │
+│ □ Work session starts                                                │
+│ □ Timer counts up                                                    │
+│ □ Tasks can be completed                                             │
+│ □ Inventory can be logged                                            │
+│ □ Issues can be reported                                             │
+│ □ Summary displays correctly                                         │
+│ □ Work session ends                                                  │
+│ □ Logout works                                                       │
+└─────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ 🛠️ COMMON TASKS                                                      │
+├─────────────────────────────────────────────────────────────────────┤
+│ Change API URL:                                                      │
+│   Edit: src/app/services/api.service.ts                              │
+│   Line: private baseUrl = 'http://localhost:3001/api';               │
+│                                                                       │
+│ Add Translation:                                                     │
+│   Edit: src/app/services/translation.service.ts                      │
+│   Add to: private translations object                                │
+│                                                                       │
+│ Add Component:                                                       │
+│   ng generate component components/my-component --standalone         │
+│                                                                       │
+│ Add Service:                                                         │
+│   ng generate service services/my-service                            │
+└─────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────┐
+│ 📊 PROJECT STATS                                                     │
+├─────────────────────────────────────────────────────────────────────┤
+│ Files:             40+                                               │
+│ Lines of Code:     ~5,000+                                           │
+│ Components:        8                                                 │
+│ Services:          4                                                 │
+│ Documentation:     ~30KB                                             │
+│ Status:            ✅ COMPLETE                                        │
+└─────────────────────────────────────────────────────────────────────┘
+
+╔════════════════════════════════════════════════════════════════════════╗
+║  Created: March 18, 2026                                               ║
+║  Framework: Angular 19.1.5                                             ║
+║  TypeScript: 5.7.2                                                     ║
+║  Architecture: Standalone Components                                   ║
+║  Status: PRODUCTION-READY                                              ║
+╚════════════════════════════════════════════════════════════════════════╝

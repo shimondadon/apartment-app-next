@@ -1,0 +1,50 @@
+<div>
+  <div class="section-title">🚨 דיווח תקלות</div>
+
+  <div class="alert alert-info">
+    השתמשי בטופס זה כדי לדווח על בעיות או תקלות שנתקלת בהן במהלך הניקיון
+  </div>
+
+  <div class="form-group">
+    <label>📂 סוג תקלה</label>
+    <select [(ngModel)]="issueCategory">
+      <option *ngFor="let cat of categories" [value]="cat.value">
+        {{ cat.label }}
+      </option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label>📝 תיאור התקלה</label>
+    <textarea 
+      [(ngModel)]="issueDescription"
+      placeholder="תארי את הבעיה בפירוט..."
+    ></textarea>
+  </div>
+
+  <div class="form-group">
+    <label>📷 צרפי תמונות (אופציונלי)</label>
+    <div class="photo-upload-area">
+      <input 
+        type="file" 
+        accept="image/*" 
+        multiple 
+        (change)="onFileSelected($event)"
+        style="display: none;"
+        #fileInput
+      >
+      <div (click)="fileInput.click()" style="cursor: pointer;">
+        <div style="font-size: 32px; margin-bottom: 8px;">📸</div>
+        <div>לחצי כדי להוסיף תמונות</div>
+      </div>
+    </div>
+
+    <div class="photo-preview-grid" *ngIf="imagePreviewUrls.length > 0">
+      <img *ngFor="let url of imagePreviewUrls" [src]="url" alt="Preview">
+    </div>
+  </div>
+
+  <button (click)="submitIssue()">
+    שלח דיווח 📤
+  </button>
+</div>

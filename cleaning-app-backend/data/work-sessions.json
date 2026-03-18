@@ -1,0 +1,66 @@
+[
+  {
+    "id": "37cef375-d90d-47e1-ae9d-2efe2e24e47a",
+    "workerId": "a2d12110-414b-429a-b164-30be8092d8e3",
+    "apartmentId": 7,
+    "startTime": "2026-03-18T16:14:37.838Z",
+    "status": "completed",
+    "endTime": "2026-03-18T16:15:32.123Z"
+  },
+  {
+    "id": "46850d7c-11f8-45d4-ae01-a1dd3915087d",
+    "workerId": "a2d12110-414b-429a-b164-30be8092d8e3",
+    "apartmentId": 9,
+    "startTime": "2026-03-18T16:15:49.606Z",
+    "status": "completed",
+    "endTime": "2026-03-18T16:16:58.964Z"
+  },
+  {
+    "id": "56dc2c77-beeb-430e-9c8e-2832ddca936a",
+    "workerId": "a2d12110-414b-429a-b164-30be8092d8e3",
+    "apartmentId": 9,
+    "startTime": "2026-03-18T16:17:11.080Z",
+    "status": "completed",
+    "endTime": "2026-03-18T16:17:37.491Z"
+  },
+  {
+    "id": "a97244c8-efc4-4d2e-b98d-c318f0181734",
+    "workerId": "be2b7a08-481c-42fd-84e9-429a4d1914d1",
+    "apartmentId": 6,
+    "startTime": "2026-03-18T16:20:22.321Z",
+    "status": "completed",
+    "endTime": "2026-03-18T16:20:29.368Z"
+  },
+  {
+    "id": "d20b7b6d-3b79-4ae0-9681-b8ae1d998695",
+    "workerId": "be2b7a08-481c-42fd-84e9-429a4d1914d1",
+    "apartmentId": 8,
+    "startTime": "2026-03-18T16:20:44.455Z",
+    "status": "completed",
+    "endTime": "2026-03-18T16:20:48.951Z"
+  },
+  {
+    "id": "163dc046-09d8-4923-8afb-bd2069780147",
+    "workerId": "be2b7a08-481c-42fd-84e9-429a4d1914d1",
+    "apartmentId": 8,
+    "startTime": "2026-03-18T16:21:04.519Z",
+    "status": "completed",
+    "endTime": "2026-03-18T16:22:19.402Z"
+  },
+  {
+    "id": "ca021f28-4d41-427f-9b28-0d7d842be455",
+    "workerId": "be2b7a08-481c-42fd-84e9-429a4d1914d1",
+    "apartmentId": 6,
+    "startTime": "2026-03-18T16:24:00.687Z",
+    "status": "completed",
+    "endTime": "2026-03-18T16:24:06.946Z"
+  },
+  {
+    "id": "c81fb8d8-309c-402a-bf32-ceb16498df98",
+    "workerId": "be2b7a08-481c-42fd-84e9-429a4d1914d1",
+    "apartmentId": 8,
+    "startTime": "2026-03-18T16:26:22.208Z",
+    "status": "completed",
+    "endTime": "2026-03-18T16:26:26.338Z"
+  }
+]
