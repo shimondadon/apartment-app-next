@@ -7,7 +7,7 @@ import type { WorkSession, ApiResponse } from '@/lib/types';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { workerId: string } }
+  props: { params: Promise<{ workerId: string }> }
 ) {
   try {
     // Authenticate request
@@ -19,6 +19,7 @@ export async function GET(
       );
     }
 
+    const params = await props.params;
     const { workerId } = params;
 
     // Find active work session for this worker

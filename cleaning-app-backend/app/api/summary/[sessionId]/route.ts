@@ -2,9 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { authenticateRequest } from "@/lib/auth";
 import { workSessionsStorage, workersStorage } from "@/lib/storage";
 
-export async function GET(request, { params }) {
+export async function GET(request: NextRequest, props: { params: Promise<{ sessionId: string }> }) {
   const auth = authenticateRequest(request);
   if (!auth) return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
+  const params = await props.params;
   const session = workSessionsStorage.findById(params.sessionId);
   if (!session) return NextResponse.json({ success: false, error: "Not found" }, { status: 404 });
   const worker = workersStorage.findById(session.workerId);
