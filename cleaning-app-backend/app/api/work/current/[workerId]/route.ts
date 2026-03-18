@@ -5,9 +5,13 @@ import { workSessionsStorage } from '@/lib/storage';
 import { authenticateRequest } from '@/lib/auth';
 import type { WorkSession, ApiResponse } from '@/lib/types';
 
+type RouteContext = {
+  params: Promise<{ workerId: string }>;
+}
+
 export async function GET(
   request: NextRequest,
-  props: { params: Promise<{ workerId: string }> }
+  context: RouteContext
 ) {
   try {
     // Authenticate request
@@ -19,8 +23,7 @@ export async function GET(
       );
     }
 
-    const params = await props.params;
-    const { workerId } = params;
+    const { workerId } = await context.params;
 
     // Find active work session for this worker
     const sessions = workSessionsStorage.findMany<WorkSession>(

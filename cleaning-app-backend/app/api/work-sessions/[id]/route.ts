@@ -3,9 +3,13 @@ import { authenticateRequest } from '@/lib/auth';
 import { workSessionsStorage } from '@/lib/storage';
 import { WorkSession, ApiResponse } from '@/lib/types';
 
+type RouteContext = {
+  params: Promise<{ id: string }>;
+}
+
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  context: RouteContext
 ) {
   const auth = authenticateRequest(request);
   if (!auth) {
@@ -16,7 +20,7 @@ export async function GET(
   }
 
   try {
-    const { id } = await params;
+    const { id } = await context.params;
     const session = workSessionsStorage.findById<WorkSession>(id);
 
     if (!session) {
