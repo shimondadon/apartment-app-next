@@ -118,7 +118,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const session = workSessionsStorage.findById(workSessionId);
+    const session: any = workSessionsStorage.findById(workSessionId);
     if (!session) {
       return NextResponse.json<ApiResponse>(
         { success: false, error: 'Work session not found' },

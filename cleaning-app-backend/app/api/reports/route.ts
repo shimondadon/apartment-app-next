@@ -69,12 +69,12 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const inventoryUsed = inventoryLogsStorage.findMany(
-      (log) => log.workSessionId === workSessionId
+    const inventoryUsed = inventoryLogsStorage.findMany<any>(
+      (log: any) => log.workSessionId === workSessionId
     );
 
-    const issuesReported = issuesStorage.findMany(
-      (issue) => issue.workSessionId === workSessionId
+    const issuesReported = issuesStorage.findMany<any>(
+      (issue: any) => issue.workSessionId === workSessionId
     );
 
     let duration: number | undefined;

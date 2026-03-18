@@ -10,10 +10,10 @@ export async function GET(request: NextRequest, context: RouteContext) {
   const auth = authenticateRequest(request);
   if (!auth) return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
   const { sessionId } = await context.params;
-  const session = workSessionsStorage.findById(sessionId);
+  const session: any = workSessionsStorage.findById(sessionId);
   if (!session) return NextResponse.json({ success: false, error: "Not found" }, { status: 404 });
-  const worker = workersStorage.findById(session.workerId);
-  const apartment = { id: session.apartmentId, name: `דירה ${session.apartmentId}`, icon: "" };
+  const worker: any = workersStorage.findById(session.workerId);
+  const apartment = { id: session.apartmentId, name: `דירה ${session.apartmentId}`, icon: "🏠" };
   let duration = 0;
   if (session.startTime && session.endTime) {
     duration = Math.floor((new Date(session.endTime).getTime() - new Date(session.startTime).getTime()) / 1000);
