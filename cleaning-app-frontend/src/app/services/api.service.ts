@@ -18,7 +18,7 @@ import {
   providedIn: 'root'
 })
 export class ApiService {
-  private baseUrl = 'http://localhost:3001/api';
+  private baseUrl = 'https://apartment-app-next-git-main-shimondadonb-gmailcoms-projects.vercel.app/api';
 
   constructor(private http: HttpClient) {}
 
