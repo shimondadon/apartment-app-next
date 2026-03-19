@@ -8,9 +8,6 @@ import type { Worker, LoginRequest, AuthResponse } from '@/lib/types';
 
 // Valid access codes (in production, store these securely in database)
 const VALID_CODES: Record<string, boolean> = {
-  'עובדת1234': true,
-  'ניקיון2024': true,
-  'test': true,
   '1234': true
 };
 
@@ -36,9 +33,9 @@ export async function POST(request: NextRequest) {
 
     // Find or create worker
     let worker = workersStorage.findOne<Worker>((w) => w.name === name && w.code === code);
-    
+
     const isNewWorker = !worker;
-    
+
     if (!worker) {
       // Create new worker
       worker = {
@@ -48,7 +45,7 @@ export async function POST(request: NextRequest) {
         createdAt: new Date()
       };
       workersStorage.add(worker);
-      
+
       // Add 3 demo completed sessions for new workers
       const { workSessionsStorage } = require('@/lib/storage');
       const demoSessions = [
@@ -77,7 +74,7 @@ export async function POST(request: NextRequest) {
           status: 'completed',
         },
       ];
-      
+
       demoSessions.forEach(session => workSessionsStorage.add(session));
     }
 

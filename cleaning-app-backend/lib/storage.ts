@@ -1,26 +1,47 @@
-// Storage layer using in-memory storage (Vercel-compatible)
-// NOTE: Data persists during serverless function warm state
-// For production, consider using Vercel KV, Postgres, or MongoDB
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
+import path from 'path';
 
-// Global shared storage that persists across API calls while function is warm
-const globalStorage = new Map<string, any[]>();
+const DATA_DIR = path.resolve(process.cwd(), 'data');
+
+function ensureDataDir(): void {
+  if (!existsSync(DATA_DIR)) {
+    mkdirSync(DATA_DIR, { recursive: true });
+  }
+}
 
 export class JsonStorage {
-  private filename: string;
+  private filePath: string;
 
   constructor(filename: string) {
-    this.filename = filename;
+    this.filePath = path.join(DATA_DIR, filename);
+  }
+
+  private ensureFile(): void {
+    ensureDataDir();
+    if (!existsSync(this.filePath)) {
+      writeFileSync(this.filePath, '[]', 'utf8');
+    }
   }
 
   read<T>(): T[] {
-    if (!globalStorage.has(this.filename)) {
-      globalStorage.set(this.filename, []);
+    this.ensureFile();
+
+    try {
+      const raw = readFileSync(this.filePath, 'utf8').trim();
+      if (!raw) {
+        return [];
+      }
+
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed) ? (parsed as T[]) : [];
+    } catch {
+      return [];
     }
-    return globalStorage.get(this.filename) || [];
   }
 
   write<T>(data: T[]): void {
-    globalStorage.set(this.filename, data);
+    this.ensureFile();
+    writeFileSync(this.filePath, JSON.stringify(data, null, 2), 'utf8');
   }
 
   add<T extends { id: string | number }>(item: T): T {
@@ -32,9 +53,10 @@ export class JsonStorage {
 
   update<T extends { id: string | number }>(id: string | number, updates: Partial<T>): T | null {
     const data = this.read<T>();
-    const index = data.findIndex(item => item.id === id);
+    const normalizedId = String(id);
+    const index = data.findIndex(item => String(item.id) === normalizedId);
     if (index === -1) return null;
-    
+
     data[index] = { ...data[index], ...updates };
     this.write(data);
     return data[index];
@@ -42,7 +64,8 @@ export class JsonStorage {
 
   findById<T extends { id: string | number }>(id: string | number): T | null {
     const data = this.read<T>();
-    return data.find(item => item.id === id) || null;
+    const normalizedId = String(id);
+    return data.find(item => String(item.id) === normalizedId) || null;
   }
 
   findOne<T>(predicate: (item: T) => boolean): T | null {
@@ -57,7 +80,8 @@ export class JsonStorage {
 
   delete(id: string | number): boolean {
     const data = this.read<any>();
-    const newData = data.filter(item => item.id !== id);
+    const normalizedId = String(id);
+    const newData = data.filter(item => String(item.id) !== normalizedId);
     if (newData.length === data.length) return false;
     this.write(newData);
     return true;

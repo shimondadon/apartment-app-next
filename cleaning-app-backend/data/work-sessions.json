@@ -62,5 +62,53 @@
     "startTime": "2026-03-18T16:26:22.208Z",
     "status": "completed",
     "endTime": "2026-03-18T16:26:26.338Z"
+  },
+  {
+    "id": "06206749-5ded-4240-96cd-fc3cc93203d9",
+    "workerId": "e71c42a8-bcf4-4344-bae4-96cc9a5e34b0",
+    "apartmentId": 9,
+    "startTime": "2026-03-19T12:06:34.766Z",
+    "status": "completed",
+    "endTime": "2026-03-19T12:06:54.977Z"
+  },
+  {
+    "id": "4ef7a0f5-4076-4362-9285-0891b138c14b",
+    "workerId": "e71c42a8-bcf4-4344-bae4-96cc9a5e34b0",
+    "apartmentId": 8,
+    "startTime": "2026-03-19T12:07:55.437Z",
+    "status": "completed",
+    "endTime": "2026-03-19T12:08:01.053Z"
+  },
+  {
+    "id": "session_1773922090199_1",
+    "workerId": "0dc79736-b70d-453a-870a-2b7f0c1e384b",
+    "apartmentId": "apt_001",
+    "startTime": "2026-03-13T12:08:10.199Z",
+    "endTime": "2026-03-13T14:08:10.199Z",
+    "status": "completed"
+  },
+  {
+    "id": "session_1773922090199_2",
+    "workerId": "0dc79736-b70d-453a-870a-2b7f0c1e384b",
+    "apartmentId": "apt_002",
+    "startTime": "2026-03-15T12:08:10.199Z",
+    "endTime": "2026-03-15T13:38:10.199Z",
+    "status": "completed"
+  },
+  {
+    "id": "session_1773922090199_3",
+    "workerId": "0dc79736-b70d-453a-870a-2b7f0c1e384b",
+    "apartmentId": "apt_003",
+    "startTime": "2026-03-18T12:08:10.199Z",
+    "endTime": "2026-03-18T14:38:10.199Z",
+    "status": "completed"
+  },
+  {
+    "id": "0a7f79fd-774d-46b6-a6f4-0ac9a80f089a",
+    "workerId": "0dc79736-b70d-453a-870a-2b7f0c1e384b",
+    "apartmentId": 9,
+    "startTime": "2026-03-19T12:08:36.426Z",
+    "status": "completed",
+    "endTime": "2026-03-19T12:08:50.796Z"
   }
 ]
