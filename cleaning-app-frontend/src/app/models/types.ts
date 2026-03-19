@@ -81,6 +81,17 @@ export type IssueCategory =
   | 'safety'
   | 'other';
 
+export interface TaskCompletion {
+  id: string;
+  workSessionId: string;
+  taskId: string;
+  timestamp: Date;
+}
+
+export interface TaskWithStatus extends Task {
+  categoryName: string;
+}
+
 export interface WorkSummary {
   workSessionId: string;
   worker: Worker;
@@ -90,6 +101,7 @@ export interface WorkSummary {
   duration?: number;
   tasksCompleted: number;
   totalTasks: number;
+  tasks: TaskWithStatus[];
   inventoryUsed: InventoryLog[];
   issuesReported: Issue[];
 }

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { authenticateRequest } from '@/lib/auth';
-import { workSessionsStorage } from '@/lib/storage';
-import { TaskCategory, ApiResponse, CompleteTaskRequest } from '@/lib/types';
+import { workSessionsStorage, taskCompletionsStorage } from '@/lib/storage';
+import { TaskCategory, ApiResponse, CompleteTaskRequest, TaskCompletion } from '@/lib/types';
 
 // Task categories from the original HTML file
 const TASK_CATEGORIES: TaskCategory[] = [
@@ -133,8 +133,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Store task completion (in a real app, this would be in a separate storage)
-    // For now, we'll just return success
+    // Store task completion
+    const taskCompletion: TaskCompletion = {
+      id: `${workSessionId}-${taskId}`,
+      workSessionId,
+      taskId,
+      timestamp: new Date(),
+    };
+    
+    taskCompletionsStorage.add(taskCompletion);
+    
     return NextResponse.json<ApiResponse>({
       success: true,
       message: 'Task marked as completed',

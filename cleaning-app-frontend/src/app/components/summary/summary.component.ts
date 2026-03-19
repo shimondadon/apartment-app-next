@@ -1,7 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, NavigationEnd } from '@angular/router';
-import { filter, Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { WorkService } from '../../services/work.service';
 import { AuthService } from '../../services/auth.service';
@@ -14,12 +13,11 @@ import { WorkSummary, WorkSession } from '../../models/types';
   templateUrl: './summary.component.html',
   styleUrls: ['./summary.component.css']
 })
-export class SummaryComponent implements OnInit, OnDestroy {
+export class SummaryComponent implements OnInit {
   summary: WorkSummary | null = null;
   isLoading = false;
   recentSessions: WorkSession[] = [];
   selectedSessionId: string | null = null;
-  private routerSubscription?: Subscription;
 
   constructor(
     private apiService: ApiService,
@@ -29,20 +27,8 @@ export class SummaryComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    // Load fresh data every time component is opened
     this.loadRecentSessions();
-    
-    // Reload data when navigating to this page
-    this.routerSubscription = this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe(() => {
-      if (this.router.url === '/summary') {
-        this.loadRecentSessions();
-      }
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.routerSubscription?.unsubscribe();
   }
 
   loadRecentSessions(): void {
@@ -52,7 +38,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
     this.apiService.getWorkSessions(worker.id).subscribe({
       next: (response) => {
         if (response.success && response.data) {
-          this.recentSessions = response.data.slice(-5).reverse(); // Last 5 sessions
+          this.recentSessions = response.data.reverse(); // All sessions, most recent first
           
           // Load summary for most recent session
           if (this.recentSessions.length > 0) {
@@ -144,25 +130,44 @@ export class SummaryComponent implements OnInit, OnDestroy {
       message += `⌛ משך: ${this.formatDuration(this.summary.duration)}\n`;
     }
 
-    message += `\n✅ *משימות*\n`;
-    message += `הושלמו: ${this.summary.tasksCompleted} מתוך ${this.summary.totalTasks} (${this.getCompletionPercentage()}%)\n`;
+    message += `\n✅ *משימות (${this.summary.tasksCompleted}/${this.summary.totalTasks})*\n\n`;
+    
+    // Group tasks by category
+    const tasksByCategory = new Map<string, typeof this.summary.tasks>();
+    this.summary.tasks.forEach(task => {
+      if (!tasksByCategory.has(task.categoryName)) {
+        tasksByCategory.set(task.categoryName, []);
+      }
+      tasksByCategory.get(task.categoryName)?.push(task);
+    });
+    
+    // List all tasks with status
+    tasksByCategory.forEach((tasks, categoryName) => {
+      message += `*${categoryName}*\n`;
+      tasks.forEach(task => {
+        const status = task.completed ? '✅' : '❌';
+        message += `${status} ${task.text}\n`;
+      });
+      message += `\n`;
+    });
 
     if (this.summary.inventoryUsed && this.summary.inventoryUsed.length > 0) {
-      message += `\n📦 *מלאי שנוצל*\n`;
+      message += `📦 *מלאי שנוצל*\n`;
       this.summary.inventoryUsed.forEach(log => {
         log.items.forEach(item => {
           message += `• ${item.name}: ${item.quantity} ${item.unit}\n`;
         });
       });
+      message += `\n`;
     }
 
     if (this.summary.issuesReported && this.summary.issuesReported.length > 0) {
-      message += `\n🚨 *תקלות*\n`;
+      message += `🚨 *תקלות*\n`;
       this.summary.issuesReported.forEach(issue => {
         message += `• ${issue.category}: ${issue.description}\n`;
       });
     } else {
-      message += `\n🌟 *עבודה נקייה ללא תקלות!*\n`;
+      message += `🌟 *עבודה נקייה ללא תקלות!*\n`;
     }
 
     return message;

@@ -69,3 +69,4 @@ export const workersStorage = new JsonStorage('workers.json');
 export const workSessionsStorage = new JsonStorage('work-sessions.json');
 export const inventoryLogsStorage = new JsonStorage('inventory-logs.json');
 export const issuesStorage = new JsonStorage('issues.json');
+export const taskCompletionsStorage = new JsonStorage('task-completions.json');

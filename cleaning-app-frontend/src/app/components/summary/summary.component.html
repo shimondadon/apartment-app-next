@@ -49,6 +49,22 @@
       </div>
     </div>
 
+    <!-- Tasks List -->
+    <div *ngIf="summary.tasks && summary.tasks.length > 0">
+      <div class="section-title">📋 רשימת משימות</div>
+      <div *ngFor="let task of summary.tasks" 
+           [style.padding]="'8px 12px'" 
+           [style.border-bottom]="'1px solid var(--gray-200)'"
+           [style.display]="'flex'"
+           [style.align-items]="'center'"
+           [style.gap]="'8px'">
+        <span [style.font-size]="'18px'">{{ task.completed ? '✅' : '❌' }}</span>
+        <span [style.flex]="'1'" [style.text-decoration]="task.completed ? 'none' : 'none'">
+          {{ task.text }}
+        </span>
+      </div>
+    </div>
+
     <div *ngIf="summary.inventoryUsed && summary.inventoryUsed.length > 0">
       <div class="section-title">📦 מלאי שנוצל</div>
       <div class="inventory-log">
