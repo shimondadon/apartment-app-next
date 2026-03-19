@@ -1,1 +1,22 @@
 /* Component-specific styles */
+
+.disconnect-btn {
+  margin-top: 10px;
+  padding: 8px 20px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.disconnect-btn:hover {
+  background-color: #c82333;
+}
+
+.disconnect-btn:active {
+  transform: scale(0.98);
+}

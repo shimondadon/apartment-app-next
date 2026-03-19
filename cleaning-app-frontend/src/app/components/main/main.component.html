@@ -5,6 +5,12 @@
     </div>
     <h1>{{ translationService.translate('appTitle') }}</h1>
     <p *ngIf="currentWorker">{{ currentWorker.name }}</p>
+    <button 
+      *ngIf="currentWorker" 
+      (click)="logout()" 
+      class="disconnect-btn">
+      {{ translationService.translate('disconnect') }}
+    </button>
   </div>
 
   <div class="content">

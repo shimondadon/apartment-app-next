@@ -22,6 +22,10 @@ export class TranslationService {
       he: 'מערכת ניהול חכמה',
       en: 'Smart Management System'
     },
+    disconnect: {
+      he: '🚪 התנתק',
+      en: '🚪 Disconnect'
+    },
     fullName: {
       he: '👤 שם מלא',
       en: '👤 Full Name'
