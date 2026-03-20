@@ -105,6 +105,12 @@ Authorization: Bearer <token>
 
 Currently uses JSON file storage in `data/` directory for simplicity.
 
+- Local development: reads/writes `cleaning-app-backend/data/`
+- Vercel: reads seed data from bundled files, writes runtime changes to `/tmp/cleaning-app-data`
+- You can override the storage path with `DATA_DIR=/your/path`
+
+> Note: `/tmp` on serverless is ephemeral and not shared across instances. For durable production data, move storage to a database.
+
 ### Migrate to Database
 
 To upgrade to PostgreSQL/MongoDB:

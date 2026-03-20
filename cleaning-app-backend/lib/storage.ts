@@ -1,7 +1,51 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
 import path from 'path';
 
-const DATA_DIR = path.resolve(process.cwd(), 'data');
+const DEFAULT_DATA_DIR = path.resolve(process.cwd(), 'data');
+const RUNTIME_DATA_DIR = path.join('/tmp', 'cleaning-app-data');
+
+function resolveDataDir(): string {
+  if (process.env.DATA_DIR) {
+    return path.resolve(process.env.DATA_DIR);
+  }
+
+  // Vercel serverless file system is read-only outside /tmp.
+  if (process.env.VERCEL === '1') {
+    return RUNTIME_DATA_DIR;
+  }
+
+  return DEFAULT_DATA_DIR;
+}
+
+const DATA_DIR = resolveDataDir();
+
+function getSeedDirs(): string[] {
+  const candidates = [
+    DEFAULT_DATA_DIR,
+    path.resolve(process.cwd(), 'cleaning-app-backend', 'data')
+  ];
+
+  // Deduplicate possible identical paths.
+  return [...new Set(candidates)];
+}
+
+function getInitialFileContent(filename: string): string {
+  for (const seedDir of getSeedDirs()) {
+    const seedPath = path.join(seedDir, filename);
+    if (!existsSync(seedPath)) {
+      continue;
+    }
+
+    try {
+      const raw = readFileSync(seedPath, 'utf8').trim();
+      return raw || '[]';
+    } catch {
+      // Try the next seed source.
+    }
+  }
+
+  return '[]';
+}
 
 function ensureDataDir(): void {
   if (!existsSync(DATA_DIR)) {
@@ -19,7 +63,8 @@ export class JsonStorage {
   private ensureFile(): void {
     ensureDataDir();
     if (!existsSync(this.filePath)) {
-      writeFileSync(this.filePath, '[]', 'utf8');
+      const initialContent = getInitialFileContent(path.basename(this.filePath));
+      writeFileSync(this.filePath, initialContent, 'utf8');
     }
   }
 
