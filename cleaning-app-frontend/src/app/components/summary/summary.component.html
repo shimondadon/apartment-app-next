@@ -3,7 +3,7 @@
 
   <div *ngIf="recentSessions.length > 1" style="margin-bottom: 15px;">
     <label style="font-weight: 600; margin-bottom: 8px; display: block;">בחר עבודה:</label>
-    <select (change)="loadSummary($any($event.target).value)" 
+    <select (change)="loadSummary($any($event.target).value)"
             [value]="selectedSessionId"
             style="width: 100%; padding: 12px; border: 2px solid var(--gray-200); border-radius: 10px; font-size: 15px;">
       <option *ngFor="let session of recentSessions" [value]="session.id">
@@ -43,7 +43,7 @@
         {{ summary.tasksCompleted }} מתוך {{ summary.totalTasks }}
         ({{ getCompletionPercentage() }}%)
       </p>
-      
+
       <div class="progress-bar-container">
         <div class="progress-bar-fill" [style.width.%]="getCompletionPercentage()"></div>
       </div>
@@ -52,8 +52,8 @@
     <!-- Tasks List -->
     <div *ngIf="summary.tasks && summary.tasks.length > 0">
       <div class="section-title">📋 רשימת משימות</div>
-      <div *ngFor="let task of summary.tasks" 
-           [style.padding]="'8px 12px'" 
+      <div *ngFor="let task of summary.tasks"
+           [style.padding]="'8px 12px'"
            [style.border-bottom]="'1px solid var(--gray-200)'"
            [style.display]="'flex'"
            [style.align-items]="'center'"
@@ -82,10 +82,38 @@
       <div *ngFor="let issue of summary.issuesReported" class="alert alert-warning">
         <strong>{{ issue.category }}</strong><br>
         {{ issue.description }}
+
+        <div *ngIf="issue.images && issue.images.length > 0" class="issue-images">
+          <ng-container *ngFor="let image of issue.images; let i = index">
+            <img
+              *ngIf="isRenderableImageSource(image)"
+              [src]="image"
+              [alt]="'Issue image ' + (i + 1)"
+              class="issue-image"
+              role="button"
+              tabindex="0"
+              (click)="openImageLightbox(image)"
+              (keydown.enter)="openImageLightbox(image)"
+              (keydown.space)="openImageLightbox(image)"
+            />
+            <div *ngIf="!isRenderableImageSource(image)" class="issue-image-fallback">
+              📎 {{ getImageLabel(image, i) }}
+            </div>
+          </ng-container>
+        </div>
       </div>
     </div>
 
-    <div *ngIf="(!summary.inventoryUsed || summary.inventoryUsed.length === 0) && 
+    <div *ngIf="selectedIssueImage" class="lightbox-overlay" (click)="closeImageLightbox()">
+      <div class="lightbox-content" (click)="$event.stopPropagation()">
+        <button type="button" class="lightbox-close" (click)="closeImageLightbox()" aria-label="Close image">
+          ✕
+        </button>
+        <img [src]="selectedIssueImage" alt="Issue image preview" class="lightbox-image" />
+      </div>
+    </div>
+
+    <div *ngIf="(!summary.inventoryUsed || summary.inventoryUsed.length === 0) &&
                 (!summary.issuesReported || summary.issuesReported.length === 0)">
       <div class="alert alert-success">
         עבודה נקייה ללא תקלות! 🌟
@@ -93,8 +121,8 @@
     </div>
 
     <!-- WhatsApp Share Button -->
-    <button 
-      (click)="shareToWhatsApp()" 
+    <button
+      (click)="shareToWhatsApp()"
       class="btn-success"
       style="margin-top: 20px; display: flex; align-items: center; justify-content: center; gap: 8px;">
       <span style="font-size: 20px;">💬</span>

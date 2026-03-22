@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
@@ -18,6 +18,7 @@ export class SummaryComponent implements OnInit {
   isLoading = false;
   recentSessions: WorkSession[] = [];
   selectedSessionId: string | null = null;
+  selectedIssueImage: string | null = null;
 
   constructor(
     private apiService: ApiService,
@@ -39,7 +40,7 @@ export class SummaryComponent implements OnInit {
       next: (response) => {
         if (response.success && response.data) {
           this.recentSessions = response.data.reverse(); // All sessions, most recent first
-          
+
           // Load summary for most recent session
           if (this.recentSessions.length > 0) {
             this.loadSummary(this.recentSessions[0].id);
@@ -55,7 +56,7 @@ export class SummaryComponent implements OnInit {
   loadSummary(sessionId: string): void {
     this.selectedSessionId = sessionId;
     this.isLoading = true;
-    
+
     this.apiService.getSummary(sessionId).subscribe({
       next: (response) => {
         if (response.success && response.data) {
@@ -74,7 +75,7 @@ export class SummaryComponent implements OnInit {
     if (!seconds) return '0 דקות';
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
-    
+
     if (hours > 0) {
       return `${hours} שעות ו-${minutes} דקות`;
     }
@@ -109,7 +110,7 @@ export class SummaryComponent implements OnInit {
     const message = this.generateReportMessage();
     const encodedMessage = encodeURIComponent(message);
     const whatsappUrl = `https://wa.me/?text=${encodedMessage}`;
-    
+
     window.open(whatsappUrl, '_blank');
   }
 
@@ -121,17 +122,17 @@ export class SummaryComponent implements OnInit {
     message += `🏡 דירה: ${this.summary.apartment.name}\n`;
     message += `📅 תאריך: ${this.formatDate(this.summary.startTime)}\n`;
     message += `⏰ התחלה: ${this.formatTime(this.summary.startTime)}\n`;
-    
+
     if (this.summary.endTime) {
       message += `⏱ סיום: ${this.formatTime(this.summary.endTime)}\n`;
     }
-    
+
     if (this.summary.duration) {
       message += `⌛ משך: ${this.formatDuration(this.summary.duration)}\n`;
     }
 
     message += `\n✅ *משימות (${this.summary.tasksCompleted}/${this.summary.totalTasks})*\n\n`;
-    
+
     // Group tasks by category
     const tasksByCategory = new Map<string, typeof this.summary.tasks>();
     this.summary.tasks.forEach(task => {
@@ -140,7 +141,7 @@ export class SummaryComponent implements OnInit {
       }
       tasksByCategory.get(task.categoryName)?.push(task);
     });
-    
+
     // List all tasks with status
     tasksByCategory.forEach((tasks, categoryName) => {
       message += `*${categoryName}*\n`;
@@ -171,5 +172,49 @@ export class SummaryComponent implements OnInit {
     }
 
     return message;
+  }
+
+  isRenderableImageSource(source: unknown): boolean {
+    if (typeof source !== 'string') {
+      return false;
+    }
+
+    const normalized = source.trim().toLowerCase();
+    return normalized.startsWith('data:image/') || normalized.startsWith('http://') || normalized.startsWith('https://') || normalized.startsWith('/');
+  }
+
+  getImageLabel(source: unknown, index: number): string {
+    if (typeof source !== 'string') {
+      return `תמונה ${index + 1}`;
+    }
+
+    const normalizedSource = source.trim();
+    if (!normalizedSource) {
+      return `תמונה ${index + 1}`;
+    }
+
+    if (normalizedSource.startsWith('data:image/')) {
+      return `תמונה ${index + 1}`;
+    }
+
+    const parts = normalizedSource.split('/');
+    return parts[parts.length - 1] || `תמונה ${index + 1}`;
+  }
+
+  openImageLightbox(source: unknown): void {
+    if (!this.isRenderableImageSource(source) || typeof source !== 'string') {
+      return;
+    }
+
+    this.selectedIssueImage = source;
+  }
+
+  closeImageLightbox(): void {
+    this.selectedIssueImage = null;
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscapeKey(): void {
+    this.closeImageLightbox();
   }
 }
