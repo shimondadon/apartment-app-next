@@ -17,6 +17,7 @@ export class SummaryComponent implements OnInit {
   summary: WorkSummary | null = null;
   isLoading = false;
   recentSessions: WorkSession[] = [];
+  sessionOptions: { id: string; label: string }[] = [];
   selectedSessionId: string | null = null;
   selectedIssueImage: string | null = null;
 
@@ -39,7 +40,11 @@ export class SummaryComponent implements OnInit {
     this.apiService.getWorkSessions(worker.id).subscribe({
       next: (response) => {
         if (response.success && response.data) {
-          this.recentSessions = response.data.reverse(); // All sessions, most recent first
+          this.recentSessions = [...response.data].reverse(); // All sessions, most recent first
+          this.sessionOptions = this.recentSessions.map((session) => ({
+            id: session.id,
+            label: `${this.formatDate(session.startTime)} - ${session.apartmentId} דירה - ${this.formatTime(session.startTime)}`,
+          }));
 
           // Load summary for most recent session
           if (this.recentSessions.length > 0) {
@@ -69,6 +74,18 @@ export class SummaryComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+  onSessionChange(sessionId: string): void {
+    if (!sessionId || sessionId === this.selectedSessionId) {
+      return;
+    }
+
+    this.loadSummary(sessionId);
+  }
+
+  trackBySessionId(_index: number, option: { id: string; label: string }): string {
+    return option.id;
   }
 
   formatDuration(seconds?: number): string {

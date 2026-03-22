@@ -1,13 +1,15 @@
 <div>
   <div class="section-title">📊 סיכום עבודה</div>
 
-  <div *ngIf="recentSessions.length > 1" style="margin-bottom: 15px;">
-    <label style="font-weight: 600; margin-bottom: 8px; display: block;">בחר עבודה:</label>
-    <select (change)="loadSummary($any($event.target).value)"
-            [value]="selectedSessionId"
-            style="width: 100%; padding: 12px; border: 2px solid var(--gray-200); border-radius: 10px; font-size: 15px;">
-      <option *ngFor="let session of recentSessions" [value]="session.id">
-        {{ formatDate(session.startTime) }} - {{ session.apartmentId }} דירה - {{ formatTime(session.startTime) }}
+  <div *ngIf="recentSessions.length > 1" class="summary-session-selector">
+    <label class="summary-session-label">בחר עבודה:</label>
+    <select
+      class="summary-session-select"
+      [value]="selectedSessionId"
+      (change)="onSessionChange($any($event.target).value)"
+    >
+      <option *ngFor="let option of sessionOptions; trackBy: trackBySessionId" [value]="option.id">
+        {{ option.label }}
       </option>
     </select>
   </div>
