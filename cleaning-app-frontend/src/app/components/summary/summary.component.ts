@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
@@ -13,7 +13,9 @@ import { WorkSummary, WorkSession } from '../../models/types';
   templateUrl: './summary.component.html',
   styleUrls: ['./summary.component.css']
 })
-export class SummaryComponent implements OnInit {
+export class SummaryComponent implements OnInit, OnChanges {
+  @Input() refreshToken = 0;
+
   summary: WorkSummary | null = null;
   isLoading = false;
   recentSessions: WorkSession[] = [];
@@ -33,6 +35,14 @@ export class SummaryComponent implements OnInit {
     this.loadRecentSessions();
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!changes['refreshToken'] || changes['refreshToken'].firstChange) {
+      return;
+    }
+
+    this.loadRecentSessions();
+  }
+
   loadRecentSessions(): void {
     const worker = this.authService.getCurrentWorker();
     if (!worker) return;
@@ -49,7 +59,15 @@ export class SummaryComponent implements OnInit {
           // Load summary for most recent session
           if (this.recentSessions.length > 0) {
             this.loadSummary(this.recentSessions[0].id);
+          } else {
+            this.selectedSessionId = null;
+            this.summary = null;
           }
+        } else {
+          this.recentSessions = [];
+          this.sessionOptions = [];
+          this.selectedSessionId = null;
+          this.summary = null;
         }
       },
       error: (error) => {

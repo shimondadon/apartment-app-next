@@ -5,9 +5,9 @@
     </div>
     <h1>{{ translationService.translate('appTitle') }}</h1>
     <p *ngIf="currentWorker">{{ currentWorker.name }}</p>
-    <button 
-      *ngIf="currentWorker" 
-      (click)="logout()" 
+    <button
+      *ngIf="currentWorker"
+      (click)="logout()"
       class="disconnect-btn">
       {{ translationService.translate('disconnect') }}
     </button>
@@ -42,7 +42,7 @@
     </div>
 
     <div class="tab-content" [class.active]="activeTab === 'summary'">
-      <app-summary></app-summary>
+      <app-summary [refreshToken]="summaryRefreshToken"></app-summary>
     </div>
   </div>
 </div>

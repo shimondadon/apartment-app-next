@@ -27,6 +27,7 @@ import { SummaryComponent } from '../summary/summary.component';
 export class MainComponent implements OnInit {
   currentWorker: Worker | null = null;
   activeTab = 'work';
+  summaryRefreshToken = 0;
 
   constructor(
     private authService: AuthService,
@@ -44,6 +45,10 @@ export class MainComponent implements OnInit {
   }
 
   switchTab(tab: string): void {
+    if (tab === 'summary') {
+      this.summaryRefreshToken += 1;
+    }
+
     this.activeTab = tab;
   }
 
