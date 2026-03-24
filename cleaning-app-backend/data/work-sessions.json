@@ -118,5 +118,52 @@
     "startTime": "2026-03-19T12:23:15.366Z",
     "status": "completed",
     "endTime": "2026-03-19T12:24:04.333Z"
+  },
+  {
+    "id": "2c6c6973-27b6-4e25-bb51-780f11cdda77",
+    "workerId": "0014f535-bc10-40c1-84a5-7d9cc3f8d9ce",
+    "apartmentId": 9,
+    "startTime": "2026-03-22T11:35:25.032Z",
+    "status": "completed",
+    "endTime": "2026-03-22T11:35:43.540Z"
+  },
+  {
+    "id": "56918f8b-4ac0-44cb-9778-056e7701c424",
+    "workerId": "0014f535-bc10-40c1-84a5-7d9cc3f8d9ce",
+    "apartmentId": 9,
+    "startTime": "2026-03-22T11:36:27.711Z",
+    "status": "completed",
+    "endTime": "2026-03-22T11:36:46.101Z"
+  },
+  {
+    "id": "10e64f1a-2b26-490e-b625-98d144bc0ed9",
+    "workerId": "0014f535-bc10-40c1-84a5-7d9cc3f8d9ce",
+    "apartmentId": 10,
+    "startTime": "2026-03-22T11:39:06.944Z",
+    "status": "completed",
+    "endTime": "2026-03-22T11:39:14.676Z"
+  },
+  {
+    "id": "c89aa2d6-c53e-4c90-8aca-515c1ed7c2c1",
+    "workerId": "0014f535-bc10-40c1-84a5-7d9cc3f8d9ce",
+    "apartmentId": 11,
+    "startTime": "2026-03-22T11:42:11.753Z",
+    "status": "completed",
+    "endTime": "2026-03-22T11:42:18.334Z"
+  },
+  {
+    "id": "e3e59e8c-3845-409c-9c3b-bd9463a8668c",
+    "workerId": "0dc79736-b70d-453a-870a-2b7f0c1e384b",
+    "apartmentId": 6,
+    "startTime": "2026-03-24T21:15:39.256Z",
+    "status": "completed",
+    "endTime": "2026-03-24T21:16:23.972Z"
+  },
+  {
+    "id": "89e38b59-0732-4270-b6eb-e4d40f85cb32",
+    "workerId": "0dc79736-b70d-453a-870a-2b7f0c1e384b",
+    "apartmentId": 9,
+    "startTime": "2026-03-24T21:33:58.562Z",
+    "status": "working"
   }
 ]

@@ -139,34 +139,153 @@ export class SummaryComponent implements OnInit, OnChanges {
     return Math.round((this.summary.tasksCompleted / this.summary.totalTasks) * 100);
   }
 
-  shareToWhatsApp(): void {
-    if (!this.summary) return;
+  /** ASCII status markers — emoji break in wa.me URLs / some WhatsApp clients after truncation. */
+  private static readonly TASK_OK = '[V]';
+  private static readonly TASK_NO = '[X]';
+
+  /** Encoded URL length above this risks truncation mid-UTF-8 → replacement chars (). */
+  private static readonly MAX_WA_ME_TEXT_ENCODED = 3200;
+
+  private issueCategoryHebrew(category: string): string {
+    const map: Record<string, string> = {
+      maintenance: 'תחזוקה',
+      cleaning: 'ניקיון',
+      supplies: 'ציוד',
+      safety: 'בטיחות',
+      other: 'אחר',
+    };
+    return map[category] ?? category;
+  }
+
+  private async dataUrlToFile(dataUrl: string, filename: string): Promise<File | null> {
+    try {
+      const res = await fetch(dataUrl);
+      const blob = await res.blob();
+      if (!blob.size) {
+        return null;
+      }
+      const type = blob.type && blob.type !== 'application/octet-stream' ? blob.type : 'image/jpeg';
+      return new File([blob], filename, { type });
+    } catch {
+      return null;
+    }
+  }
+
+  private async collectIssueImageFiles(maxFiles = 8): Promise<File[]> {
+    if (!this.summary?.issuesReported?.length) {
+      return [];
+    }
+
+    const files: File[] = [];
+    let n = 0;
+    for (const issue of this.summary.issuesReported) {
+      if (!issue.images?.length) {
+        continue;
+      }
+      for (let i = 0; i < issue.images.length && files.length < maxFiles; i++) {
+        const src = issue.images[i];
+        if (typeof src !== 'string' || !src.startsWith('data:image/')) {
+          continue;
+        }
+        const file = await this.dataUrlToFile(src, `issue-${++n}.jpg`);
+        if (file) {
+          files.push(file);
+        }
+      }
+    }
+    return files;
+  }
+
+  async shareToWhatsApp(): Promise<void> {
+    if (!this.summary) {
+      return;
+    }
 
     const message = this.generateReportMessage();
-    const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `https://wa.me/?text=${encodedMessage}`;
+    const imageFiles = await this.collectIssueImageFiles();
 
-    window.open(whatsappUrl, '_blank');
+    const shareData: ShareData = {
+      title: 'דוח עבודת ניקיון',
+      text: message,
+      ...(imageFiles.length > 0 ? { files: imageFiles } : {}),
+    };
+
+    if (typeof navigator !== 'undefined' && navigator.share) {
+      try {
+        if (!navigator.canShare || navigator.canShare(shareData)) {
+          await navigator.share(shareData);
+          return;
+        }
+      } catch (e) {
+        if (e instanceof DOMException && e.name === 'AbortError') {
+          return;
+        }
+      }
+
+      // Text-only share (e.g. desktop / no file support)
+      const textOnly: ShareData = { title: shareData.title, text: message };
+      if (navigator.canShare?.(textOnly)) {
+        try {
+          await navigator.share(textOnly);
+          if (imageFiles.length > 0) {
+            window.alert(
+              'הטקסט נשלח. תמונות התקלה לא צורפו אוטומטית — הוסיפו אותן ידנית מהמסך או מהגלריה.'
+            );
+          }
+          return;
+        } catch (e) {
+          if (e instanceof DOMException && e.name === 'AbortError') {
+            return;
+          }
+        }
+      }
+    }
+
+    const encoded = encodeURIComponent(message);
+    if (encoded.length <= SummaryComponent.MAX_WA_ME_TEXT_ENCODED) {
+      window.open(`https://wa.me/?text=${encoded}`, '_blank');
+      if (imageFiles.length > 0) {
+        window.alert(
+          'בקישור wa.me אי אפשר לצרף תמונות. הוסיפו תמונות מהאפליקציה ידנית אחרי שליחת ההודעה.'
+        );
+      }
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(message);
+      window.open('https://wa.me/', '_blank');
+      let hint =
+        'הדוח הועתק ללוח — הדביקו בשדה ההודעה בוואטסאפ (Ctrl+V או לחיצה ארוכה → הדבקה).';
+      if (imageFiles.length > 0) {
+        hint +=
+          '\n\nתמונות: בוואטסאפ לחצו על סיכה והוסיפו מהמכשיר; או חזרו למסך הסיכום והוסיפו צילומי מסך.';
+      }
+      window.alert(hint);
+    } catch {
+      window.alert('לא ניתן להעתיק ללוח אוטומטית. העתיקו את הדוח מהמסך או השתמשו במכשיר עם שיתוף מערכת.');
+    }
   }
 
   generateReportMessage(): string {
     if (!this.summary) return '';
 
-    let message = `📊 *דוח עבודת ניקיון*\n\n`;
-    message += `👤 עובדת: ${this.summary.worker.name}\n`;
-    message += `🏡 דירה: ${this.summary.apartment.name}\n`;
-    message += `📅 תאריך: ${this.formatDate(this.summary.startTime)}\n`;
-    message += `⏰ התחלה: ${this.formatTime(this.summary.startTime)}\n`;
+    let message = `*דוח עבודת ניקיון*\n\n`;
+    message += `עובדת: ${this.summary.worker.name}\n`;
+    message += `דירה: ${this.summary.apartment.name}\n`;
+    message += `תאריך: ${this.formatDate(this.summary.startTime)}\n`;
+    message += `התחלה: ${this.formatTime(this.summary.startTime)}\n`;
 
     if (this.summary.endTime) {
-      message += `⏱ סיום: ${this.formatTime(this.summary.endTime)}\n`;
+      message += `סיום: ${this.formatTime(this.summary.endTime)}\n`;
     }
 
     if (this.summary.duration) {
-      message += `⌛ משך: ${this.formatDuration(this.summary.duration)}\n`;
+      message += `משך: ${this.formatDuration(this.summary.duration)}\n`;
     }
 
-    message += `\n✅ *משימות (${this.summary.tasksCompleted}/${this.summary.totalTasks})*\n\n`;
+    message += `\n*משימות (${this.summary.tasksCompleted}/${this.summary.totalTasks})*\n`;
+    message += `${SummaryComponent.TASK_OK} = בוצע, ${SummaryComponent.TASK_NO} = לא בוצע\n\n`;
 
     // Group tasks by category
     const tasksByCategory = new Map<string, typeof this.summary.tasks>();
@@ -181,29 +300,34 @@ export class SummaryComponent implements OnInit, OnChanges {
     tasksByCategory.forEach((tasks, categoryName) => {
       message += `*${categoryName}*\n`;
       tasks.forEach(task => {
-        const status = task.completed ? '✅' : '❌';
+        const status = task.completed ? SummaryComponent.TASK_OK : SummaryComponent.TASK_NO;
         message += `${status} ${task.text}\n`;
       });
       message += `\n`;
     });
 
     if (this.summary.inventoryUsed && this.summary.inventoryUsed.length > 0) {
-      message += `📦 *מלאי שנוצל*\n`;
+      message += `*מלאי שנוצל*\n`;
       this.summary.inventoryUsed.forEach(log => {
         log.items.forEach(item => {
-          message += `• ${item.name}: ${item.quantity} ${item.unit}\n`;
+          message += `- ${item.name}: ${item.quantity} ${item.unit}\n`;
         });
       });
       message += `\n`;
     }
 
     if (this.summary.issuesReported && this.summary.issuesReported.length > 0) {
-      message += `🚨 *תקלות*\n`;
+      message += `*תקלות*\n`;
       this.summary.issuesReported.forEach(issue => {
-        message += `• ${issue.category}: ${issue.description}\n`;
+        const cat = this.issueCategoryHebrew(issue.category);
+        message += `- ${cat}: ${issue.description}`;
+        if (issue.images && issue.images.length > 0) {
+          message += ` (צורפו ${issue.images.length} תמונות באפליקציה)`;
+        }
+        message += `\n`;
       });
     } else {
-      message += `🌟 *עבודה נקייה ללא תקלות!*\n`;
+      message += `*עבודה נקייה ללא תקלות*\n`;
     }
 
     return message;
