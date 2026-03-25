@@ -1,0 +1,136 @@
+<!-- מבנה זהה ל־main: כרטיס לבן + כותרת גרדיאנט -->
+<div *ngIf="!sessionId" class="container" dir="rtl">
+  <div class="header">
+    <h1>דוח עבודה</h1>
+    <p>קישור לא תקין — חסר מזהה עבודה.</p>
+  </div>
+  <div class="content">
+    <div class="alert alert-warning">בדקו שהקישור הועתף במלואו.</div>
+  </div>
+</div>
+
+<div *ngIf="sessionId && !isLoggedIn" class="container" dir="rtl">
+  <div class="header">
+    <h1>כניסת מנהל</h1>
+    <p>הזינו סיסמה כדי לצפות בדוח המלא</p>
+  </div>
+  <div class="content">
+    <div class="manager-login-card">
+      <p class="manager-login-hint">
+        סיסמה (אותיות קטנות). שם המשתמש אופציונלי בלבד.
+      </p>
+      <div class="form-group">
+        <label for="admin-user">שם משתמש (אופציונלי)</label>
+        <input id="admin-user" type="text" [(ngModel)]="username" autocomplete="username" />
+      </div>
+      <div class="form-group">
+        <label for="admin-pass">סיסמה</label>
+        <input
+          id="admin-pass"
+          type="password"
+          [(ngModel)]="password"
+          (keydown.enter)="submitLogin()"
+          autocomplete="current-password"
+        />
+      </div>
+      <div *ngIf="loginError" class="alert alert-warning">{{ loginError }}</div>
+      <button type="button" (click)="submitLogin()" [disabled]="loginLoading">
+        {{ loginLoading ? 'מתחבר…' : 'התחברות' }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="sessionId && isLoggedIn" class="container" dir="rtl">
+  <div class="header">
+    <h1>דוח עבודה</h1>
+    <p *ngIf="summary">סיכום עבודת ניקיון</p>
+    <button type="button" (click)="logout()" class="disconnect-btn">יציאה</button>
+  </div>
+
+  <div class="content">
+    <div *ngIf="loadError" class="alert alert-warning">{{ loadError }}</div>
+
+    <div *ngIf="loading" class="progress-text" style="padding: 32px; text-align: center">טוען דוח…</div>
+
+    <ng-container *ngIf="!loading && summary">
+      <div class="summary-card">
+        <p><strong>עובדת:</strong> {{ summary.worker.name }}</p>
+        <p><strong>דירה:</strong> {{ summary.apartment.name }}</p>
+        <p><strong>תאריך:</strong> {{ formatDate(summary.startTime) }}</p>
+        <p><strong>שעת התחלה:</strong> {{ formatTime(summary.startTime) }}</p>
+        <p *ngIf="summary.endTime"><strong>שעת סיום:</strong> {{ formatTime(summary.endTime) }}</p>
+        <p *ngIf="summary.duration"><strong>משך:</strong> {{ formatDuration(summary.duration) }}</p>
+      </div>
+
+      <div class="summary-card">
+        <p>
+          <strong>משימות שהושלמו:</strong>
+          {{ summary.tasksCompleted }} מתוך {{ summary.totalTasks }} ({{ getCompletionPercentage() }}%)
+        </p>
+        <div class="progress-bar-container">
+          <div class="progress-bar-fill" [style.width.%]="getCompletionPercentage()"></div>
+        </div>
+      </div>
+
+      <div *ngIf="summary.tasks?.length" class="manager-tasks-wrap">
+        <div class="section-title">רשימת משימות</div>
+        <div class="manager-task-list">
+          <div *ngFor="let task of summary.tasks" class="manager-task-row">
+            <span class="manager-task-icon">{{ task.completed ? '✅' : '❌' }}</span>
+            <span class="manager-task-text">{{ task.text }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="summary.inventoryUsed?.length">
+        <div class="section-title">מלאי שנוצל</div>
+        <div class="inventory-log">
+          <div *ngFor="let log of summary.inventoryUsed" class="inventory-log-item">
+            <strong>משימה: {{ log.taskId }}</strong>
+            <span *ngFor="let item of log.items"> {{ item.name }}: {{ item.quantity }} {{ item.unit }} </span>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="summary.issuesReported?.length">
+        <div class="section-title">תקלות שדווחו</div>
+        <div *ngFor="let issue of summary.issuesReported" class="alert alert-warning">
+          <strong>{{ issueCategoryLabel(issue.category) }}</strong><br />
+          {{ issue.description }}
+          <div *ngIf="issue.images?.length" class="issue-images">
+            <ng-container *ngFor="let image of issue.images; let i = index">
+              <img
+                *ngIf="isRenderableImageSource(image)"
+                [src]="image"
+                [alt]="'תקלה ' + (i + 1)"
+                class="issue-image issue-image-manager"
+                role="button"
+                tabindex="0"
+                (click)="openImageLightbox(image)"
+                (keydown.enter)="openImageLightbox(image)"
+                (keydown.space)="openImageLightbox(image)"
+              />
+            </ng-container>
+          </div>
+        </div>
+      </div>
+
+      <div
+        *ngIf="
+          (!summary.inventoryUsed || summary.inventoryUsed.length === 0) &&
+          (!summary.issuesReported || summary.issuesReported.length === 0)
+        "
+      >
+        <div class="alert alert-success">עבודה נקייה ללא תקלות! 🌟</div>
+      </div>
+
+      <div *ngIf="selectedIssueImage" class="lightbox-overlay" (click)="closeImageLightbox()">
+        <div class="lightbox-content" (click)="$event.stopPropagation()">
+          <button type="button" class="lightbox-close" (click)="closeImageLightbox()" aria-label="סגירה">✕</button>
+          <img [src]="selectedIssueImage" alt="תצוגת תקלה" class="lightbox-image" />
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

@@ -1,0 +1,67 @@
+@import '../summary/summary.component.css';
+
+.manager-login-card {
+  padding: 4px 0 8px;
+}
+
+.manager-login-hint {
+  font-size: 14px;
+  color: var(--gray-600);
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.manager-tasks-wrap {
+  margin-top: 8px;
+}
+
+.manager-task-list {
+  border: 2px solid var(--gray-200);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--gray-50);
+}
+
+.manager-task-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--gray-200);
+  background: white;
+}
+
+.manager-task-row:last-child {
+  border-bottom: none;
+}
+
+.manager-task-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+  line-height: 1.4;
+}
+
+.manager-task-text {
+  flex: 1;
+  font-size: 14px;
+  color: var(--gray-700);
+  line-height: 1.45;
+}
+
+/* תמונות תקלות גדולות יותר במסך מנהל */
+.issue-image-manager {
+  width: min(100%, 160px) !important;
+  height: auto !important;
+  min-height: 120px;
+  max-height: 220px;
+  object-fit: cover;
+}
+
+@media (min-width: 480px) {
+  .issue-image-manager {
+    width: 140px !important;
+    height: 140px !important;
+    min-height: unset;
+    max-height: unset;
+  }
+}
