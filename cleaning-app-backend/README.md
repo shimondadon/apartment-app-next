@@ -15,20 +15,43 @@ cd cleaning-app-backend
 npm install
 ```
 
-### Development
+### Run Modes
 
+הוראות מלאות ל-`dev` ו-`production` נמצאות ב-`מצבי הרצה (Dev / Production)` בהמשך.
+
+## מצבי הרצה (Dev / Production)
+
+המערכת תומכת בשתי סביבות, וה-CORS מוגדר ב-`next.config.ts` בהתאם לסביבה.
+
+### Dev (פיתוח מקומי)
+מפעילים את ה-API במצב פיתוח:
 ```bash
+cd cleaning-app-backend
 npm run dev
 ```
 
-Server runs on **http://localhost:3001**
+לאחר מכן ה-API זמין ב-`http://localhost:3001/api`.
 
-### Build for Production
+במצב זה ה-CORS משתמש בסט "dev" כדי שפעולות מה-frontend המקומי יעבדו חלק.
 
+### Production (פרודקשן)
+מפעילים את ה-API במצב פרודקשן:
 ```bash
+cd cleaning-app-backend
 npm run build
 npm start
 ```
+
+ה-API עדיין זמין ב-`http://localhost:3001/api` מקומית.
+
+במצב זה ה-CORS מכוון לאוריג׳ין של הפרודקשן:
+`https://apartment-app-kohl.vercel.app`
+
+חשוב: אם תריץ את ה-frontend על `localhost` מול ה-API ב-production, ייתכן שהדפדפן יחסום בגלל Origin שלא תואם. בפרודקשן אמיתי (Vercel) האוריג׳ין תואם ואז זה עובד.
+
+ב-Vercel:
+- ב-`production` יופעל הסט של ה-CORS לפרודקשן.
+- ב-`preview` יופעל הסט של ה-CORS ל-dev כדי למנוע בעיות CORS בפריוויו.
 
 ## 📁 Project Structure
 
@@ -121,7 +144,9 @@ To upgrade to PostgreSQL/MongoDB:
 ## 🔧 Configuration
 
 ### CORS
-Configured in `next.config.ts` to allow requests from `http://localhost:4200` (Angular frontend).
+Configured in `next.config.ts` with environment-specific headers:
+- Dev (local `next dev`): allows local origins via `Access-Control-Allow-Origin: *` (plus dev headers).
+- Production (Vercel `production`): allows only `https://apartment-app-kohl.vercel.app`.
 
 ### JWT Secret
 Default: `cleaning-app-secret-key-change-in-production`

@@ -64,30 +64,47 @@ npm install
 
 ## Development Server
 
-Run the development server:
+להרצה ב-`dev`/`production`, השתמש בסעיף `מצבי הרצה (Dev / Production)` בהמשך.
+
+## מצבי הרצה (Dev / Production)
+
+ה-frontend משתמש בשתי גרסאות של קובץ הגדרות API:
+- `src/environments/environment.ts` (Dev) -> `http://localhost:3001/api`
+- `src/environments/environment.prod.ts` (Production) -> `https://apartment-app-next-git-main-shimondadonb-gmailcoms-projects.vercel.app/api`
+
+### Dev (פיתוח מקומי)
 ```bash
+cd cleaning-app-frontend
 npm start
 ```
 
-Navigate to `http://localhost:4200/`
+במצב זה נבנית/נרצת סביבה `dev` ולכן ה-`baseUrl` מצביע ל-API המקומי.
 
-## API Configuration
+בנוסף חשוב להריץ את ה-backend גם במצב `dev` כדי ש-CORS יאפשר את ה-Origin המקומי.
 
-The app connects to the Next.js backend at `http://localhost:3001/api`
-
-To change the API URL, edit `src/app/services/api.service.ts`:
-```typescript
-private baseUrl = 'http://localhost:3001/api';
-```
-
-## Build
-
-Build for production:
+### Production (פרודקשן)
+לבנייה לפרודקשן:
 ```bash
+cd cleaning-app-frontend
 npm run build
 ```
 
-The build artifacts will be stored in the `dist/` directory.
+ה-build ישתמש בהגדרות של `environment.prod.ts` (כלומר ה-frontend ינסה לדבר מול ה-API של Vercel).
+
+לבדיקה מקומית של build בסטייל production, אפשר להריץ:
+```bash
+ng serve --configuration production
+```
+
+## API Configuration
+
+ה-`api.service.ts` קורא מתוך `environment.apiBaseUrl`.
+את ההבדלים בין `dev` ל-`production` וה-URLs המדויקים ראה בסעיף `מצבי הרצה (Dev / Production)`.
+
+## Build
+
+בניית production נעשית דרך הסעיף `מצבי הרצה (Dev / Production)`.
+תוצרי הבנייה נשמרים בתיקיית `dist/`.
 
 ## Key Features Implementation
 

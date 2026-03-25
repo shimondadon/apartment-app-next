@@ -13,13 +13,13 @@ import {
   Apartment,
   TaskCategory
 } from '../models/types';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
-  private baseUrl = 'https://apartment-app-next-git-main-shimondadonb-gmailcoms-projects.vercel.app/api';
-  // private baseUrl = 'http://localhost:3001/api';
+  private readonly baseUrl = environment.apiBaseUrl;
 
   constructor(private http: HttpClient) {}
 

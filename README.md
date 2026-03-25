@@ -42,7 +42,7 @@ cd cleaning-app-frontend
 npm install
 ```
 
-### 2. Start Development Servers
+### 2. Start Servers (Dev)
 
 ```bash
 # Backend (Terminal 1)
@@ -54,6 +54,29 @@ npm run dev
 cd cleaning-app-frontend
 npm start
 # Runs on http://localhost:4200
+```
+
+### 2.1 Start Production (API + Frontend build)
+
+מטרת סקשן זה היא להכין את הפרויקט להרצה/פריסה במצב production:
+
+```bash
+# Backend (Production)
+cd cleaning-app-backend
+npm run build
+npm start
+# Runs on http://localhost:3001
+
+# Frontend (Production build)
+cd ../cleaning-app-frontend
+npm run build
+```
+
+ה-frontend ב-`npm run build` משתמש בהגדרות production ולכן ה-`baseUrl` מצביע ל-API של ה-Vercel.
+
+לבדיקה מקומית של ה-build ב-production, אפשר להריץ:
+```bash
+ng serve --configuration production
 ```
 
 ### 3. Access the App
