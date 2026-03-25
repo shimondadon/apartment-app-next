@@ -82,7 +82,7 @@
     <div *ngIf="summary.issuesReported && summary.issuesReported.length > 0">
       <div class="section-title">🚨 תקלות שדווחו</div>
       <div *ngFor="let issue of summary.issuesReported" class="alert alert-warning">
-        <strong>{{ issue.category }}</strong><br>
+        <strong>{{ issueCategoryLabel(issue.category) }}</strong><br>
         {{ issue.description }}
 
         <div *ngIf="issue.images && issue.images.length > 0" class="issue-images">
@@ -122,13 +122,25 @@
       </div>
     </div>
 
-    <!-- WhatsApp Share Button -->
-    <button
-      (click)="shareToWhatsApp()"
-      class="btn-success"
-      style="margin-top: 20px; display: flex; align-items: center; justify-content: center; gap: 8px;">
-      <span style="font-size: 20px;">💬</span>
-      שלח דוח ל-WhatsApp
-    </button>
+    <div
+      *ngIf="selectedSessionId && summary"
+      style="margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--gray-200)"
+    >
+      <div class="section-title" style="font-size: 1rem">שליחת קישור למנהל</div>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px">
+        <button type="button" class="btn-secondary" style="flex: 1; min-width: 140px" (click)="copyManagerLink()">
+          העתקת קישור
+        </button>
+        <button
+          type="button"
+          class="btn-success"
+          style="flex: 1; min-width: 140px; display: flex; align-items: center; justify-content: center; gap: 6px"
+          (click)="shareManagerLinkWhatsApp()"
+        >
+          <span>💬</span> שליחה בוואטסאפ
+        </button>
+      </div>
+    </div>
+
   </div>
 </div>

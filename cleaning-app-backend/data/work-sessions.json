@@ -164,6 +164,7 @@
     "workerId": "0dc79736-b70d-453a-870a-2b7f0c1e384b",
     "apartmentId": 9,
     "startTime": "2026-03-24T21:33:58.562Z",
-    "status": "working"
+    "status": "completed",
+    "endTime": "2026-03-25T07:06:07.746Z"
   }
 ]

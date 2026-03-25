@@ -1,5 +1,13 @@
-<div class="apartment-grid">
-  <div 
+ <div *ngIf="loadingApartments" class="apartment-grid" style="padding: 24px; text-align: center; color: var(--gray-600)">
+  טוען דירות…
+</div>
+
+<div *ngIf="!loadingApartments && apartments.length === 0" class="apartment-grid" style="padding: 24px; text-align: center">
+  לא ניתן לטעון דירות. בדקו שהשרת רץ.
+</div>
+
+<div class="apartment-grid" *ngIf="!loadingApartments && apartments.length > 0">
+  <div
     *ngFor="let apartment of apartments"
     class="apartment-card"
     [class.selected]="selectedApartmentId === apartment.id"
@@ -8,7 +16,7 @@
     <div class="icon">{{ apartment.icon }}</div>
     <div class="name">{{ apartment.name }}</div>
     <div class="subtitle" *ngIf="apartment.badges && apartment.badges.length > 0">
-      <span 
+      <span
         *ngFor="let badge of apartment.badges"
         class="badge"
         [class.badge-new]="badge.type === 'new'"

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { WorkService } from '../../services/work.service';
 import { IssueCategory } from '../../models/types';
+import { ISSUE_CATEGORY_SELECT_OPTIONS } from '../../constants/issue-categories';
 
 @Component({
   selector: 'app-issues',
@@ -18,13 +19,7 @@ export class IssuesComponent {
   selectedImages: File[] = [];
   imagePreviewUrls: string[] = [];
 
-  categories = [
-    { value: 'maintenance', label: '🔧 תחזוקה' },
-    { value: 'cleaning', label: '🧹 ניקיון' },
-    { value: 'supplies', label: '📦 ציוד' },
-    { value: 'safety', label: '⚠ בטיחות' },
-    { value: 'other', label: '📝 אחר' }
-  ];
+  categories = ISSUE_CATEGORY_SELECT_OPTIONS;
 
   constructor(
     private apiService: ApiService,

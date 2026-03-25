@@ -12,19 +12,11 @@ import { Apartment } from '../../models/types';
 })
 export class ApartmentSelectionComponent implements OnInit {
   @Output() apartmentSelected = new EventEmitter<number>();
-  
-  apartments: Apartment[] = [
-    { id: 6, name: 'דירה 6', icon: '✨', badges: [
-      { type: 'new', label: 'חדש' },
-      { type: 'special', label: 'פנג שואי' }
-    ]},
-    { id: 7, name: 'דירה 7', icon: '🏡' },
-    { id: 8, name: 'דירה 8', icon: '🌟' },
-    { id: 9, name: 'דירה 9', icon: '🏠' },
-    { id: 10, name: 'דירה 10', icon: '✨' },
-    { id: 11, name: 'דירה 11', icon: '🏡' }
-  ];
-  
+
+  /** מתמלא מ־GET /api/apartments — מקור האמת ב־backend: lib/catalog.ts */
+  apartments: Apartment[] = [];
+  loadingApartments = true;
+
   selectedApartmentId: number | null = null;
 
   constructor(private apiService: ApiService) {}
@@ -34,15 +26,18 @@ export class ApartmentSelectionComponent implements OnInit {
   }
 
   loadApartments(): void {
+    this.loadingApartments = true;
     this.apiService.getApartments().subscribe({
       next: (response) => {
+        this.loadingApartments = false;
         if (response.success && response.data) {
           this.apartments = response.data;
         }
       },
       error: (error) => {
+        this.loadingApartments = false;
         console.error('Error loading apartments:', error);
-      }
+      },
     });
   }
 

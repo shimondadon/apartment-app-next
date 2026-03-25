@@ -72,4 +72,19 @@ export class ApiService {
   getSummary(sessionId: string): Observable<ApiResponse<WorkSummary>> {
     return this.http.get<ApiResponse<WorkSummary>>(`${this.baseUrl}/summary/${sessionId}`);
   }
+
+  adminLogin(password: string): Observable<ApiResponse<{ token: string }>> {
+    return this.http.post<ApiResponse<{ token: string }>>(`${this.baseUrl}/admin/login`, {
+      password,
+    });
+  }
+
+  /** סיכום עבודה למנהל — sessionId כמו ב-work-sessions.json */
+  getManagerReportSummary(sessionId: string, adminToken: string): Observable<ApiResponse<WorkSummary>> {
+    const headers = new HttpHeaders({ Authorization: `Bearer ${adminToken}` });
+    return this.http.get<ApiResponse<WorkSummary>>(
+      `${this.baseUrl}/manager/reports/${encodeURIComponent(sessionId)}`,
+      { headers }
+    );
+  }
 }
