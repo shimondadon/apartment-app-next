@@ -1,5 +1,43 @@
 @import '../summary/summary.component.css';
 
+.manager-toolbar {
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.manager-hint-empty {
+  padding: 16px 0 8px;
+  color: var(--gray-600);
+  font-size: 15px;
+}
+
+.manager-actions-bar {
+  margin-bottom: 16px;
+}
+
+.btn-delete-report {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 2px solid #c0392b;
+  background: #fff5f5;
+  color: #922b21;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.btn-delete-report:hover:not(:disabled) {
+  background: #fadbd8;
+}
+
+.btn-delete-report:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
 .manager-login-card {
   padding: 4px 0 8px;
 }

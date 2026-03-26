@@ -1,18 +1,8 @@
 <!-- מבנה זהה ל־main: כרטיס לבן + כותרת גרדיאנט -->
-<div *ngIf="!sessionId" class="container" dir="rtl">
-  <div class="header">
-    <h1>דוח עבודה</h1>
-    <p>קישור לא תקין — חסר מזהה עבודה.</p>
-  </div>
-  <div class="content">
-    <div class="alert alert-warning">בדקו שהקישור הועתף במלואו.</div>
-  </div>
-</div>
-
-<div *ngIf="sessionId && !isLoggedIn" class="container" dir="rtl">
+<div *ngIf="!isLoggedIn" class="container" dir="rtl">
   <div class="header">
     <h1>כניסת מנהל</h1>
-    <p>הזינו סיסמה כדי לצפות בדוח המלא</p>
+    <p>הזינו סיסמה כדי לצפות בדוחות</p>
   </div>
   <div class="content">
     <div class="manager-login-card">
@@ -41,7 +31,7 @@
   </div>
 </div>
 
-<div *ngIf="sessionId && isLoggedIn" class="container" dir="rtl">
+<div *ngIf="isLoggedIn" class="container" dir="rtl">
   <div class="header">
     <h1>דוח עבודה</h1>
     <p *ngIf="summary">סיכום עבודת ניקיון</p>
@@ -49,11 +39,58 @@
   </div>
 
   <div class="content">
+    <div *ngIf="isLoggedIn" class="manager-toolbar">
+      <div class="summary-session-selector">
+        <label class="summary-session-label" for="manager-worker">בחרו עובדת:</label>
+        <select
+          id="manager-worker"
+          class="summary-session-select"
+          [ngModel]="selectedWorkerId"
+          (ngModelChange)="onWorkerChange($event)"
+          [disabled]="workersLoading"
+        >
+          <option [ngValue]="null">{{ workersLoading ? 'טוען…' : '— בחרו —' }}</option>
+          <option *ngFor="let w of workers" [ngValue]="w.id">{{ w.name }}</option>
+        </select>
+      </div>
+
+      <div *ngIf="selectedWorkerId && sessionOptions.length > 1" class="summary-session-selector">
+        <label class="summary-session-label" for="manager-session">בחרו עבודה:</label>
+        <select
+          id="manager-session"
+          class="summary-session-select"
+          [ngModel]="sessionId"
+          (ngModelChange)="onSessionChange($event)"
+          [disabled]="sessionsLoading"
+        >
+          <option *ngFor="let option of sessionOptions; trackBy: trackBySessionId" [ngValue]="option.id">
+            {{ option.label }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div *ngIf="!sessionId && !loading" class="manager-hint-empty">
+      <p *ngIf="!workersLoading && workers.length === 0">אין עובדות רשומות במערכת.</p>
+      <p *ngIf="workers.length > 0">בחרו עובדת מהרשימה כדי לפתוח דוח.</p>
+    </div>
+
     <div *ngIf="loadError" class="alert alert-warning">{{ loadError }}</div>
 
     <div *ngIf="loading" class="progress-text" style="padding: 32px; text-align: center">טוען דוח…</div>
 
     <ng-container *ngIf="!loading && summary">
+      <div *ngIf="sessionId" class="manager-actions-bar">
+        <button
+          type="button"
+          class="btn-delete-report"
+          (click)="deleteCurrentReport()"
+          [disabled]="deleteLoading"
+        >
+          {{ deleteLoading ? 'מוחק…' : '🗑 מחק דוח' }}
+        </button>
+      </div>
+
       <div class="summary-card">
         <p><strong>עובדת:</strong> {{ summary.worker.name }}</p>
         <p><strong>דירה:</strong> {{ summary.apartment.name }}</p>

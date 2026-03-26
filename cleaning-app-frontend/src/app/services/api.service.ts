@@ -11,8 +11,11 @@ import {
   ReportIssueRequest,
   WorkSummary,
   Apartment,
-  TaskCategory
+  TaskCategory,
+  Worker
 } from '../models/types';
+
+export type ManagerWorkerRow = Pick<Worker, 'id' | 'name'>;
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -84,6 +87,27 @@ export class ApiService {
     const headers = new HttpHeaders({ Authorization: `Bearer ${adminToken}` });
     return this.http.get<ApiResponse<WorkSummary>>(
       `${this.baseUrl}/manager/reports/${encodeURIComponent(sessionId)}`,
+      { headers }
+    );
+  }
+
+  getManagerWorkers(adminToken: string): Observable<ApiResponse<ManagerWorkerRow[]>> {
+    const headers = new HttpHeaders({ Authorization: `Bearer ${adminToken}` });
+    return this.http.get<ApiResponse<ManagerWorkerRow[]>>(`${this.baseUrl}/manager/workers`, { headers });
+  }
+
+  getManagerWorkerSessions(workerId: string, adminToken: string): Observable<ApiResponse<WorkSession[]>> {
+    const headers = new HttpHeaders({ Authorization: `Bearer ${adminToken}` });
+    return this.http.get<ApiResponse<WorkSession[]>>(
+      `${this.baseUrl}/manager/workers/${encodeURIComponent(workerId)}/sessions`,
+      { headers }
+    );
+  }
+
+  deleteManagerSession(sessionId: string, adminToken: string): Observable<ApiResponse<void>> {
+    const headers = new HttpHeaders({ Authorization: `Bearer ${adminToken}` });
+    return this.http.delete<ApiResponse<void>>(
+      `${this.baseUrl}/manager/sessions/${encodeURIComponent(sessionId)}`,
       { headers }
     );
   }

@@ -131,6 +131,16 @@ export class JsonStorage {
     this.write(newData);
     return true;
   }
+
+  deleteWhere<T>(predicate: (item: T) => boolean): number {
+    const data = this.read<T>();
+    const newData = data.filter((item) => !predicate(item));
+    const removed = data.length - newData.length;
+    if (removed > 0) {
+      this.write(newData);
+    }
+    return removed;
+  }
 }
 
 // Initialize storage instances
